@@ -1,0 +1,23 @@
+{
+  "default:manual_input": {
+    "user_id": "default",
+    "stream_id": "manual_input",
+    "consented": true,
+    "timestamp": "2026-04-27T05:51:54.015069",
+    "version": "1.0"
+  },
+  "default:wearable_vitals": {
+    "user_id": "default",
+    "stream_id": "wearable_vitals",
+    "consented": false,
+    "timestamp": "2026-04-27T05:51:42.339371",
+    "version": "1.0"
+  },
+  "default:ehr_import": {
+    "user_id": "default",
+    "stream_id": "ehr_import",
+    "consented": false,
+    "timestamp": "2026-04-27T05:51:42.347674",
+    "version": "1.0"
+  }
+}

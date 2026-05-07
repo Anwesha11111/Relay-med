@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RelayMed AI Health Companion</title>
+  <meta name="description" content="Trust-aware AI health companion with causal inference, differential privacy, and hospital-grade security." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+  <link rel="stylesheet" href="/css/consent.css" />
+  <link rel="stylesheet" href="/css/transparency.css" />
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="12" fill="url(#g1)"/>
+            <path d="M10 14h4v-4h-4v4zm0 0v4h4v-4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs><linearGradient id="g1" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">RelayMed</span>
+          <span class="logo-tag">AI Companion</span>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-dashboard" onclick="showView('dashboard')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" id="nav-chat" onclick="showView('chat')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>AI Chat</span>
+      </button>
+      <button class="nav-item" id="nav-ingest" onclick="showView('ingest')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <span>Log Vitals</span>
+      </button>
+      <button class="nav-item" id="nav-reports" onclick="showView('reports')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+        <span>Reports</span>
+      </button>
+      <button class="nav-item" id="nav-consent" onclick="showView('consent')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Consent</span>
+      </button>
+      <button class="nav-item" id="nav-transparency" onclick="showView('transparency')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        <span>Data Flow</span>
+      </button>
+      <button class="nav-item" id="nav-audit" onclick="showView('audit')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Audit Log</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="system-status" id="system-status"><span class="status-dot"></span><span class="status-text">Connecting…</span></div>
+      <div class="llm-badge" id="llm-badge">LLM: —</div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <header class="view-header">
+        <div><h1>Health Dashboard</h1><p class="view-subtitle">Your personalised health overview</p></div>
+        <button class="btn btn-primary" onclick="refreshDashboard()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Refresh
+        </button>
+      </header>
+      <div id="alert-banner" class="alert-banner hidden"></div>
+      <section class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-icon kpi-heart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="kpi-data"><div class="kpi-label">Heart Rate</div><div class="kpi-value" id="kpi-hr-value">— <span class="kpi-unit">bpm</span></div></div></div>
+        <div class="kpi-card"><div class="kpi-icon kpi-oxygen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="kpi-data"><div class="kpi-label">SpO₂</div><div class="kpi-value" id="kpi-spo2-value">— <span class="kpi-unit">%</span></div></div></div>
+        <div class="kpi-card"><div class="kpi-icon kpi-bp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 6 18 3-9h5"/></svg></div><div class="kpi-data"><div class="kpi-label">BP Systolic</div><div class="kpi-value" id="kpi-bp-value">— <span class="kpi-unit">mmHg</span></div></div></div>
+        <div class="kpi-card"><div class="kpi-icon kpi-trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="kpi-data"><div class="kpi-label">Avg Trust Score</div><div class="kpi-value" id="kpi-trust-value">—</div></div></div>
+      </section>
+      <section class="charts-row">
+        <div class="chart-card chart-wide">
+          <div class="chart-header">
+            <h2>Vital Trend</h2>
+            <select id="chart-vital-select" onchange="loadVitalChart(this.value)" class="chart-select">
+              <option value="heart_rate">Heart Rate</option>
+              <option value="spo2">SpO₂</option>
+              <option value="blood_pressure_systolic">BP Systolic</option>
+              <option value="glucose_fasting">Glucose</option>
+              <option value="steps">Steps</option>
+              <option value="sleep_hours">Sleep</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <svg id="vital-chart" width="100%" height="200"></svg>
+            <div class="chart-empty hidden" id="chart-empty">No data yet. Log some vitals to see your chart.</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header"><h2>Graph Stats</h2></div>
+          <div class="graph-stats">
+            <div class="stat-row"><span>Nodes</span><strong id="graph-nodes">—</strong></div>
+            <div class="stat-row"><span>Edges</span><strong id="graph-edges">—</strong></div>
+          </div>
+          <svg id="trust-gauge" width="130" height="130"></svg>
+          <div class="gauge-label">Data Quality</div>
+        </div>
+      </section>
+      <section class="findings-section">
+        <div class="section-header"><h2>Risk Findings</h2><button class="btn btn-ghost" onclick="loadReports()">Refresh</button></div>
+        <div id="findings-list" class="findings-list"><div class="empty-state"><p>No active findings. Keep logging data.</p></div></div>
+      </section>
+    </div>
+
+    <!-- CHAT -->
+    <div class="view" id="view-chat">
+      <header class="view-header">
+        <div><h1>AI Health Chat</h1><p class="view-subtitle">Powered by <span id="chat-llm-label">—</span></p></div>
+        <button class="btn btn-ghost" onclick="startNewSession()">New Session</button>
+      </header>
+      <div class="chat-layout">
+        <div class="chat-panel">
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-welcome">
+              <div class="welcome-icon">🩺</div>
+              <h2>Hello, I'm SecureMed AI</h2>
+              <p>I can explain your health data, flag concerns, and guide you toward better outcomes.</p>
+              <div class="quick-prompts">
+                <button class="quick-prompt" onclick="sendQuickPrompt('Give me a summary of my current health status.')">Health Summary</button>
+                <button class="quick-prompt" onclick="sendQuickPrompt('What do my recent vitals mean?')">Vital Analysis</button>
+                <button class="quick-prompt" onclick="sendQuickPrompt('What lifestyle changes would most improve my health?')">Lifestyle Tips</button>
+                <button class="quick-prompt" onclick="sendQuickPrompt('Explain my risk findings in simple terms.')">Explain Findings</button>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <div class="chat-input-row">
+              <textarea id="chat-input" class="chat-input" placeholder="Ask about your health data…" rows="1" onkeydown="handleChatKey(event)"></textarea>
+              <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+            <p class="chat-disclaimer">⚠️ SecureMed AI is not a substitute for professional medical advice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INGEST -->
+    <div class="view" id="view-ingest">
+      <header class="view-header"><div><h1>Log Vitals</h1><p class="view-subtitle">Submit health data for analysis</p></div></header>
+      <div class="ingest-layout">
+        <div class="ingest-form-card">
+          <h2>New Vital Record</h2>
+          <form id="ingest-form" onsubmit="submitIngest(event)" novalidate>
+            <div class="form-row">
+              <div class="form-group"><label for="ingest-source">Data Source</label><select id="ingest-source"><option value="manual">Manual Entry</option><option value="fitbit">Fitbit</option><option value="apple_health">Apple Health</option><option value="ehr">EHR Import</option></select></div>
+              <div class="form-group"><label for="ingest-stream">Data Stream</label><select id="ingest-stream"><option value="manual_input">Manual Input</option><option value="wearable_vitals">Wearable Vitals</option><option value="ehr_import">EHR Import</option></select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="ingest-vital-type">Vital Type</label><select id="ingest-vital-type" onchange="updateUnit()"><option value="heart_rate">Heart Rate</option><option value="spo2">SpO₂</option><option value="blood_pressure_systolic">BP Systolic</option><option value="blood_pressure_diastolic">BP Diastolic</option><option value="glucose_fasting">Glucose (Fasting)</option><option value="steps">Steps</option><option value="sleep_hours">Sleep Hours</option><option value="temperature">Temperature</option><option value="weight">Weight</option><option value="respiratory_rate">Respiratory Rate</option><option value="chest_pain_severity">Chest Pain (1–10)</option></select></div>
+              <div class="form-group"><label for="ingest-unit">Unit</label><input type="text" id="ingest-unit" value="bpm" readonly class="readonly-input" /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="ingest-value">Value</label><input type="number" id="ingest-value" step="0.1" required placeholder="e.g. 72" /></div>
+              <div class="form-group"><label for="ingest-timestamp">Timestamp (local)</label><input type="datetime-local" id="ingest-timestamp" /></div>
+            </div>
+            <div id="ingest-result" class="ingest-result hidden"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="ingest-submit">Submit Vital</button>
+          </form>
+        </div>
+        <div class="quick-log-card">
+          <h2>Quick Log</h2>
+          <div class="quick-log-grid">
+            <button class="quick-log-btn" onclick="quickLog('heart_rate',72,'bpm')">❤️ HR 72 bpm</button>
+            <button class="quick-log-btn" onclick="quickLog('spo2',98,'%')">🫁 SpO₂ 98%</button>
+            <button class="quick-log-btn" onclick="quickLog('blood_pressure_systolic',120,'mmHg')">🩸 BP 120</button>
+            <button class="quick-log-btn" onclick="quickLog('steps',8000,'steps')">🚶 8000 steps</button>
+            <button class="quick-log-btn" onclick="quickLog('sleep_hours',7.5,'hrs')">😴 7.5h sleep</button>
+            <button class="quick-log-btn quick-log-btn-danger" onclick="quickLog('spo2',88,'%')">⚠️ SpO₂ 88% (test red flag)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="view" id="view-reports">
+      <header class="view-header">
+        <div><h1>Health Reports</h1><p class="view-subtitle">AI-generated explainability reports</p></div>
+        <button class="btn btn-primary" onclick="loadReports()">Generate Reports</button>
+      </header>
+      <div id="reports-container" class="reports-container"><div class="empty-state"><p>Click "Generate Reports" to analyse your health data.</p></div></div>
+    </div>
+
+    <!-- CONSENT -->
+    <div class="view" id="view-consent">
+      <header class="view-header"><div><h1>Consent Manager</h1><p class="view-subtitle">Control how your health data is used</p></div></header>
+      <div class="consent-layout">
+        <div class="consent-info-card">
+          <div class="consent-shield"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h2>Your Privacy, Your Control</h2>
+          <p>SecureMed AI requires explicit consent before processing data from any source. Revoke at any time.</p>
+          <ul class="privacy-features">
+            <li>✅ AES-256-GCM encryption at rest</li>
+            <li>✅ Differential privacy on exported stats</li>
+            <li>✅ Append-only audit log</li>
+            <li>✅ Per-stream consent granularity</li>
+            <li>✅ HIPAA / GDPR aligned</li>
+          </ul>
+        </div>
+        <div class="consent-streams-card">
+          <h2>Data Streams</h2>
+          <div id="consent-streams" class="consent-streams"></div>
+          <div class="consent-actions">
+            <button class="btn btn-primary" onclick="grantAllConsent()">Grant All</button>
+            <button class="btn btn-danger" onclick="revokeAllConsent()">Revoke All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIT -->
+    <div class="view" id="view-audit">
+      <header class="view-header">
+        <div><h1>Audit Log</h1><p class="view-subtitle">Immutable record of all system events</p></div>
+        <div class="audit-filters">
+          <select id="audit-event-filter" onchange="loadAuditLog()"><option value="">All Events</option></select>
+          <select id="audit-hours-filter" onchange="loadAuditLog()"><option value="24">Last 24h</option><option value="168">Last 7 days</option><option value="720">Last 30 days</option></select>
+        </div>
+      </header>
+      <div id="audit-container" class="audit-container"><div class="empty-state"><p>Loading audit log…</p></div></div>
+    </div>
+
+    <!-- DATA FLOW TRANSPARENCY -->
+    <div class="view" id="view-transparency">
+      <header class="view-header">
+        <div><h1>Data Flow Transparency</h1><p class="view-subtitle">See exactly where your health data goes at every step</p></div>
+      </header>
+      <div class="transparency-layout">
+
+        <!-- Hero -->
+        <div class="transparency-hero">
+          <div class="transparency-hero-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="transparency-hero-text">
+            <h2>Full Visibility into Your Health Data</h2>
+            <p>SecureMed AI is built on a principle of radical transparency. Every piece of health data you submit passes through 4 distinct layers, each with explicit controls. Your raw data <strong>never</strong> leaves your device unencrypted, and your conversations stay on your local machine via Ollama.</p>
+          </div>
+        </div>
+
+        <!-- 4-Layer Pipeline -->
+        <div>
+          <div class="pipeline-title">Your Data Journey — 4 Layers</div>
+          <div class="pipeline-flow">
+
+            <div class="pipeline-step step-1">
+              <div class="step-number">1</div>
+              <div class="step-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+              </div>
+              <div class="step-label">Layer 1</div>
+              <div class="step-name">Data Trust &amp; Ingestion</div>
+              <div class="step-desc">Your vital is validated, checked for duplicates, and processed through our **Anti-Hacking Noise Protocol**. We apply calibrated medical-grade noise (Differential Privacy) to ensure models never see your raw data. Then it's encrypted with AES-256-GCM.</div>
+              <div class="step-tags">
+                <span class="step-tag tag-noise">Noise Injection</span>
+                <span class="step-tag tag-consent">Consent Check</span>
+                <span class="step-tag tag-encrypt">AES-256 Encrypt</span>
+                <span class="step-tag tag-audit">Audit Logged</span>
+              </div>
+            </div>
+
+            <div class="pipeline-step step-2">
+              <div class="step-number">2</div>
+              <div class="step-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg>
+              </div>
+              <div class="step-label">Layer 2</div>
+              <div class="step-name">Prediction &amp; Causality</div>
+              <div class="step-desc">Encrypted data is loaded into an in-memory Health Graph. Rule-based clinical checks run immediately. T-GNN and Causal AI models run as background tasks. No data is sent externally.</div>
+              <div class="step-tags">
+                <span class="step-tag tag-local">Local Only</span>
+                <span class="step-tag tag-trust">Trust-Weighted</span>
+                <span class="step-tag tag-encrypt">In-Memory</span>
+              </div>
+            </div>
+
+            <div class="pipeline-step step-3">
+              <div class="step-number">3</div>
+              <div class="step-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="step-label">Layer 3</div>
+              <div class="step-name">Explainability</div>
+              <div class="step-desc">Findings are translated into structured reports with SHAP feature scores, confidence levels, and causal pathways. Differential privacy noise is added to any aggregated statistics before display.</div>
+              <div class="step-tags">
+                <span class="step-tag tag-dp">Differential Privacy</span>
+                <span class="step-tag tag-local">Local Only</span>
+                <span class="step-tag tag-audit">Report Logged</span>
+              </div>
+            </div>
+
+            <div class="pipeline-step step-4">
+              <div class="step-number">4</div>
+              <div class="step-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="step-label">Layer 4</div>
+              <div class="step-name">Conversational AI</div>
+              <div class="step-desc">Reports are passed as context to your local Ollama LLM (llama3). Your chat messages and health summaries are processed entirely on your own machine — nothing is sent to any cloud AI service.</div>
+              <div class="step-tags">
+                <span class="step-tag tag-local">100% Local LLM</span>
+                <span class="step-tag tag-encrypt">No Cloud AI</span>
+                <span class="step-tag tag-audit">Chat Logged</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Destination Cards -->
+        <div>
+          <div class="pipeline-title">Where Does Your Data Go?</div>
+          <div class="destinations-grid">
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon local">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Your Device (SQLite)</div>
+                  <span class="dest-status status-local">Always Local</span>
+                </div>
+              </div>
+              <div class="dest-body">All vital records, trust scores, the Health Graph, and explainability reports are stored encrypted on your own machine. Nothing is replicated elsewhere by default.</div>
+              <div class="dest-detail">📁 ./securemed.db · AES-256-GCM</div>
+            </div>
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon device">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Ollama (Local LLM)</div>
+                  <span class="dest-status status-local">Your Machine</span>
+                </div>
+              </div>
+              <div class="dest-body">Chat messages and health summaries are sent to Ollama running locally at localhost:11434. The AI model (llama3) runs on your hardware — no internet connection required for AI.</div>
+              <div class="dest-detail">🦙 localhost:11434 · llama3:latest</div>
+            </div>
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon audit">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Audit Log</div>
+                  <span class="dest-status status-local">Local File</span>
+                </div>
+              </div>
+              <div class="dest-body">Every system action — ingestion, consent changes, alerts, chat requests — is appended to an immutable local log. You can view the full audit trail anytime. No deletes permitted.</div>
+              <div class="dest-detail">📋 ./data/audit/audit.jsonl · append-only</div>
+            </div>
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon consent">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Wearable APIs</div>
+                  <span class="dest-status status-opt-in">Opt-in Only</span>
+                </div>
+              </div>
+              <div class="dest-body">Fitbit and Apple Health integrations are disabled until you explicitly grant consent in the Consent Manager. Each data stream is controlled independently.</div>
+              <div class="dest-detail">🔒 Requires consent grant per stream</div>
+            </div>
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon cloud">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Google Gemini API</div>
+                  <span class="dest-status status-opt-in">Config Opt-in</span>
+                </div>
+              </div>
+              <div class="dest-body">Only used if you set LLM_PROVIDER=gemini in your .env file. Currently disabled — you are using local Ollama. If enabled, only anonymised health summaries (not raw vitals) would be sent.</div>
+              <div class="dest-detail">☁️ Currently: INACTIVE (using Ollama)</div>
+            </div>
+
+            <div class="dest-card">
+              <div class="dest-header">
+                <div class="dest-icon never">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div>
+                  <div class="dest-title">Third Parties / Ads</div>
+                  <span class="dest-status status-never">Never</span>
+                </div>
+              </div>
+              <div class="dest-body">Your health data is never sold, shared with advertisers, analytics platforms, insurance companies, or any third party. There are no telemetry calls, no tracking pixels, no analytics SDKs.</div>
+              <div class="dest-detail">🚫 Zero external data sharing</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Privacy Guarantees -->
+        <div>
+          <div class="pipeline-title">Privacy Guarantees</div>
+          <div class="guarantees-grid">
+            <div class="guarantee-card">
+              <div class="guarantee-icon">🔐</div>
+              <div>
+                <div class="guarantee-title">AES-256-GCM Encryption</div>
+                <div class="guarantee-desc">Every record is encrypted at rest with your unique master key. The key never leaves your machine.</div>
+              </div>
+            </div>
+            <div class="guarantee-card">
+              <div class="guarantee-icon">🛡️</div>
+              <div>
+                <div class="guarantee-title">Anti-Hacking Protocol</div>
+                <div class="guarantee-desc">We add noise to individual records at ingestion. Models and GNNs only process this 'privatized' view, preventing data theft via model weights.</div>
+              </div>
+            </div>
+            <div class="guarantee-card">
+              <div class="guarantee-icon">🎲</div>
+              <div>
+                <div class="guarantee-title">Differential Privacy</div>
+                <div class="guarantee-desc">Calibrated Laplace noise is added to any aggregated stats before they are displayed, preventing re-identification.</div>
+              </div>
+            </div>
+            <div class="guarantee-card">
+              <div class="guarantee-icon">🚨</div>
+              <div>
+                <div class="guarantee-title">Red Flag Guarantee</div>
+                <div class="guarantee-desc">Emergency alerts (e.g. SpO₂ &lt; 90%) are <em>never</em> suppressed — not even by a low trust score. Safety always wins.</div>
+              </div>
+            </div>
+            <div class="guarantee-card">
+              <div class="guarantee-icon">📋</div>
+              <div>
+                <div class="guarantee-title">Immutable Audit Trail</div>
+                <div class="guarantee-desc">Every action is appended to a local log. No entry can be deleted or modified — providing a full chain of custody.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Trace -->
+        <div class="trace-card">
+          <div class="trace-header">
+            <div>
+              <h2>Live Data Trace</h2>
+              <p>Real-time view of data moving through each layer — pulled from your audit log</p>
+            </div>
+            <button class="btn btn-ghost" onclick="_pollTrace()">↻ Refresh</button>
+          </div>
+          <div class="trace-body" id="trace-lines">
+            <div class="trace-empty">Log a vital or send a chat message to see data flow here.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    </main>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/consent.js"></script>
+  <script src="/js/transparency.js"></script>
+</body>
+</html>

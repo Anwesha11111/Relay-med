@@ -1,0 +1,58 @@
+# Clinical Rules YAML — configurable threshold-based rule definitions.
+
+rules:
+  - id: HR_ELEVATION_TREND
+    description: "Elevated resting heart rate trend over 7 days"
+    vital_types: [heart_rate]
+    condition: "mean(last_7d) > 100 AND trend(last_7d) > 0"
+    severity: yellow_flag
+    recommendation: "Consider scheduling a cardiology consultation. Track activity levels and stress."
+
+  - id: SPO2_LOW_TREND
+    description: "Persistently low blood oxygen saturation over 3 days"
+    vital_types: [spo2]
+    condition: "mean(last_3d) < 94"
+    severity: yellow_flag
+    recommendation: "Consult a physician. Avoid strenuous activity. Check for respiratory symptoms."
+
+  - id: BP_HYPERTENSION_STAGE2
+    description: "Blood pressure consistently in Stage 2 Hypertension range"
+    vital_types: [blood_pressure_systolic, blood_pressure_diastolic]
+    condition: "mean(last_7d, systolic) >= 140 OR mean(last_7d, diastolic) >= 90"
+    severity: yellow_flag
+    recommendation: "Schedule an appointment with your physician. Reduce sodium intake and monitor stress."
+
+  - id: BP_RISING_TREND
+    description: "Rising blood pressure trend sustained over 7 days"
+    vital_types: [blood_pressure_systolic]
+    condition: "trend(last_7d) > 0 AND mean(last_7d) > 120"
+    severity: yellow_flag
+    recommendation: "Monitor blood pressure daily. Reduce sodium and caffeine. Consult your physician."
+
+  - id: HR_BRADYCARDIA
+    description: "Resting heart rate persistently below 50 bpm"
+    vital_types: [heart_rate]
+    condition: "mean(last_3d) < 50"
+    severity: yellow_flag
+    recommendation: "Consult a cardiologist. Rule out medication side effects."
+
+  - id: GLUCOSE_HIGH_FASTING
+    description: "Fasting glucose levels above normal range"
+    vital_types: [glucose_fasting]
+    condition: "mean(last_7d) > 126"
+    severity: yellow_flag
+    recommendation: "Consult your physician for diabetes screening. Monitor carbohydrate intake."
+
+  - id: STEPS_INACTIVITY
+    description: "Prolonged physical inactivity (< 2000 steps/day for 7 days)"
+    vital_types: [steps]
+    condition: "mean(last_7d) < 2000"
+    severity: info
+    recommendation: "Aim for at least 7,500 steps per day. Consider a short daily walk."
+
+  - id: SLEEP_DEPRIVATION
+    description: "Average sleep below 6 hours for the past 7 days"
+    vital_types: [sleep_hours]
+    condition: "mean(last_7d) < 6"
+    severity: info
+    recommendation: "Prioritise 7-9 hours of sleep. Maintain a consistent sleep schedule."

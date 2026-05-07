@@ -1,0 +1,31 @@
+# Synthea Configuration — SecureMed AI Health Companion
+# Used with: java -jar synthea.jar -c synthea_config.yaml
+
+# Population settings
+population: 1
+seed: 42
+generate.log_patients.detail: "1"
+
+# Output
+exporter.baseDirectory: "../../data/synthea_output/"
+exporter.fhir.export: true
+exporter.csv.export: true
+exporter.json.export: false
+
+# Vitals & conditions to generate
+generate.only_dead_patients: false
+generate.only_alive_patients: true
+generate.demographics.default_file: "geography/demographics.csv"
+generate.geography.country_code: "US"
+generate.geography.zipcodes.default_file: "geography/zipcodes.csv"
+
+# Simulation time range
+generate.simulation_start_date: "2024-01-01"
+generate.simulation_end_date:   "2025-01-01"
+
+# Chronic condition prevalence
+# These match approximate US population rates used for synthetic testing
+generate.conditions.hypertension.prevalence:   0.3
+generate.conditions.diabetes.prevalence:       0.12
+generate.conditions.obesity.prevalence:        0.36
+generate.conditions.heart_disease.prevalence:  0.09
