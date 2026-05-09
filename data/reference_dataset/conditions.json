@@ -1,0 +1,1160 @@
+[
+  {
+    "patient_id": "c028ae5b-e408-4013-a803-8670923030af",
+    "condition": "hypertension",
+    "onset_date": "2019-05-10T22:17:41.247800+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "c028ae5b-e408-4013-a803-8670923030af",
+    "condition": "diabetes_t2",
+    "onset_date": "2025-10-22T22:17:41.247800+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "c7f88987-b856-4239-a4b2-b9e22d498348",
+    "condition": "hypertension",
+    "onset_date": "2017-02-02T22:17:41.264545+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "7b2028d7-79dc-497f-9a62-c674e3d3faf2",
+    "condition": "diabetes_t2",
+    "onset_date": "2020-08-21T22:17:41.280196+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bf6fbdf6-92b8-460a-94e9-a9e0c9e6caec",
+    "condition": "obesity",
+    "onset_date": "2021-01-02T22:17:41.297431+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bf6fbdf6-92b8-460a-94e9-a9e0c9e6caec",
+    "condition": "heart_disease",
+    "onset_date": "2018-09-20T22:17:41.297431+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f88fffd5-d32d-4acb-ae0f-93e5d4729b0e",
+    "condition": "hypertension",
+    "onset_date": "2018-12-07T22:17:41.317108+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f88fffd5-d32d-4acb-ae0f-93e5d4729b0e",
+    "condition": "obesity",
+    "onset_date": "2021-10-01T22:17:41.317108+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f31ab740-2be4-4ab4-b996-a824d0661ccf",
+    "condition": "obesity",
+    "onset_date": "2025-08-19T22:17:41.391803+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f65575d3-1c51-42c1-89ee-9e63c9eb447d",
+    "condition": "hypertension",
+    "onset_date": "2024-11-30T22:17:41.409668+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f65575d3-1c51-42c1-89ee-9e63c9eb447d",
+    "condition": "obesity",
+    "onset_date": "2017-07-02T22:17:41.409668+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "76c0edcf-99c1-4216-beb3-e1e74a25a1de",
+    "condition": "hypertension",
+    "onset_date": "2017-08-05T22:17:41.426091+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "76c0edcf-99c1-4216-beb3-e1e74a25a1de",
+    "condition": "diabetes_t2",
+    "onset_date": "2023-06-21T22:17:41.426091+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "76c0edcf-99c1-4216-beb3-e1e74a25a1de",
+    "condition": "heart_disease",
+    "onset_date": "2022-06-07T22:17:41.426091+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "76c0edcf-99c1-4216-beb3-e1e74a25a1de",
+    "condition": "copd",
+    "onset_date": "2023-07-03T22:17:41.426091+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e240d941-be55-4bd1-ba88-53f6ae0f785c",
+    "condition": "hypertension",
+    "onset_date": "2024-06-05T22:17:41.443049+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e240d941-be55-4bd1-ba88-53f6ae0f785c",
+    "condition": "diabetes_t2",
+    "onset_date": "2018-06-18T22:17:41.443049+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "c0eb1646-d8b3-4eb0-bf3e-5c6e792dc120",
+    "condition": "obesity",
+    "onset_date": "2017-08-14T22:17:41.459798+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "752c793d-148f-488e-b24f-4bfddb11fc21",
+    "condition": "obesity",
+    "onset_date": "2016-08-10T22:17:41.475765+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "752c793d-148f-488e-b24f-4bfddb11fc21",
+    "condition": "heart_disease",
+    "onset_date": "2020-10-06T22:17:41.475765+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "752c793d-148f-488e-b24f-4bfddb11fc21",
+    "condition": "copd",
+    "onset_date": "2016-08-28T22:17:41.475765+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "077adb6a-49d1-4c7f-bc0b-42c812784c19",
+    "condition": "copd",
+    "onset_date": "2021-09-05T22:17:41.507778+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "26802bef-7d99-4bc5-977e-78ba93061adf",
+    "condition": "hypertension",
+    "onset_date": "2023-03-11T22:17:41.551674+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "26802bef-7d99-4bc5-977e-78ba93061adf",
+    "condition": "obesity",
+    "onset_date": "2021-09-10T22:17:41.551674+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "26802bef-7d99-4bc5-977e-78ba93061adf",
+    "condition": "heart_disease",
+    "onset_date": "2021-11-27T22:17:41.551674+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "87086b6a-afd2-49a9-8781-6708d60f5f0e",
+    "condition": "obesity",
+    "onset_date": "2020-09-08T22:17:41.580919+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d9567024-a99a-4fbe-b2b0-3d0c4c23b2bd",
+    "condition": "hypertension",
+    "onset_date": "2021-12-11T22:17:41.604483+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d9567024-a99a-4fbe-b2b0-3d0c4c23b2bd",
+    "condition": "obesity",
+    "onset_date": "2023-10-19T22:17:41.604483+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d9567024-a99a-4fbe-b2b0-3d0c4c23b2bd",
+    "condition": "heart_disease",
+    "onset_date": "2023-06-23T22:17:41.604483+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "8f0c391a-c6fd-4662-b919-99d1899823f1",
+    "condition": "obesity",
+    "onset_date": "2022-09-23T22:17:41.633890+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "46dab3a8-28e6-4ca8-bdbd-9454b10fff06",
+    "condition": "hypertension",
+    "onset_date": "2023-12-08T22:17:41.664460+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "46dab3a8-28e6-4ca8-bdbd-9454b10fff06",
+    "condition": "obesity",
+    "onset_date": "2020-05-27T22:17:41.664460+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "33dce2f6-4e05-4948-9647-e4a699a9949e",
+    "condition": "obesity",
+    "onset_date": "2023-04-08T22:17:41.679660+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "33dce2f6-4e05-4948-9647-e4a699a9949e",
+    "condition": "heart_disease",
+    "onset_date": "2026-01-07T22:17:41.679660+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "686bb007-a8e8-4424-aa99-54ab62d52a0d",
+    "condition": "hypertension",
+    "onset_date": "2016-06-27T22:17:41.695481+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "686bb007-a8e8-4424-aa99-54ab62d52a0d",
+    "condition": "diabetes_t2",
+    "onset_date": "2025-01-30T22:17:41.695481+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "686bb007-a8e8-4424-aa99-54ab62d52a0d",
+    "condition": "obesity",
+    "onset_date": "2019-12-31T22:17:41.695481+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "686bb007-a8e8-4424-aa99-54ab62d52a0d",
+    "condition": "heart_disease",
+    "onset_date": "2022-02-17T22:17:41.695481+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0dddc49e-7b2a-4c24-91da-d552dcbd643f",
+    "condition": "obesity",
+    "onset_date": "2020-07-19T22:17:41.712648+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0c984004-6fa6-4a78-a603-95a9f14b1168",
+    "condition": "hypertension",
+    "onset_date": "2019-07-24T22:17:41.782338+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0c984004-6fa6-4a78-a603-95a9f14b1168",
+    "condition": "diabetes_t2",
+    "onset_date": "2020-06-08T22:17:41.782338+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0c984004-6fa6-4a78-a603-95a9f14b1168",
+    "condition": "obesity",
+    "onset_date": "2019-09-30T22:17:41.782338+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0c984004-6fa6-4a78-a603-95a9f14b1168",
+    "condition": "heart_disease",
+    "onset_date": "2024-10-13T22:17:41.782338+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "34514d14-9da1-4b68-8f94-4d5d783cf968",
+    "condition": "hypertension",
+    "onset_date": "2020-10-29T22:17:41.845035+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "34514d14-9da1-4b68-8f94-4d5d783cf968",
+    "condition": "obesity",
+    "onset_date": "2020-12-12T22:17:41.845035+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "34514d14-9da1-4b68-8f94-4d5d783cf968",
+    "condition": "heart_disease",
+    "onset_date": "2020-03-26T22:17:41.845035+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "1a66c4d1-8d0b-4530-a1b7-59fd4fc7e4c3",
+    "condition": "obesity",
+    "onset_date": "2025-09-05T22:17:41.861330+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "ca76d7c5-e3ec-4d76-a6bd-7b0369f7272e",
+    "condition": "obesity",
+    "onset_date": "2016-08-10T22:17:41.875635+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b130de54-5aa9-40fb-b51d-1a66b9b9340b",
+    "condition": "obesity",
+    "onset_date": "2023-02-25T22:17:41.920259+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b130de54-5aa9-40fb-b51d-1a66b9b9340b",
+    "condition": "heart_disease",
+    "onset_date": "2025-12-11T22:17:41.920259+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "99d51e36-e2a1-4a49-9a34-b7f258aeac95",
+    "condition": "obesity",
+    "onset_date": "2024-12-20T22:17:41.949433+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "fd1ca55d-705f-4e2d-ab74-07dcdd7bbd5f",
+    "condition": "obesity",
+    "onset_date": "2016-08-06T22:17:41.994104+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e860cdf8-4375-4859-a61c-149b5e215140",
+    "condition": "diabetes_t2",
+    "onset_date": "2019-11-07T22:17:42.025733+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "1c60794e-cd76-4e0f-b223-3f4ccbdc3ae9",
+    "condition": "obesity",
+    "onset_date": "2017-06-14T22:17:42.040160+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d0f805d9-68cc-42d6-bab1-5ed8d09f35d1",
+    "condition": "hypertension",
+    "onset_date": "2018-10-02T22:17:42.114686+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d0f805d9-68cc-42d6-bab1-5ed8d09f35d1",
+    "condition": "obesity",
+    "onset_date": "2025-03-26T22:17:42.114686+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b3f3b47c-4987-4556-bc5d-73a944bf48ec",
+    "condition": "hypertension",
+    "onset_date": "2017-07-19T22:17:42.130513+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "78ba4650-b752-4b27-9d00-cb3b2d22ae1e",
+    "condition": "hypertension",
+    "onset_date": "2019-09-19T22:17:42.143741+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "3d50c24b-043f-440e-b401-498c49ba016c",
+    "condition": "obesity",
+    "onset_date": "2018-05-25T22:17:42.158649+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "183203d5-07bc-4c5a-b5de-f892ad212027",
+    "condition": "hypertension",
+    "onset_date": "2020-01-21T22:17:42.173147+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "183203d5-07bc-4c5a-b5de-f892ad212027",
+    "condition": "diabetes_t2",
+    "onset_date": "2019-03-10T22:17:42.173147+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "183203d5-07bc-4c5a-b5de-f892ad212027",
+    "condition": "obesity",
+    "onset_date": "2019-04-25T22:17:42.173147+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "183203d5-07bc-4c5a-b5de-f892ad212027",
+    "condition": "heart_disease",
+    "onset_date": "2018-11-03T22:17:42.173147+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e687c872-dcf2-479a-b36a-5d707a313b71",
+    "condition": "obesity",
+    "onset_date": "2024-07-17T22:17:42.188843+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "55a6a254-bd7f-45a0-b6ff-74f509c07b44",
+    "condition": "diabetes_t2",
+    "onset_date": "2016-11-23T22:17:42.233822+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "55a6a254-bd7f-45a0-b6ff-74f509c07b44",
+    "condition": "obesity",
+    "onset_date": "2023-02-09T22:17:42.233822+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9f080400-b7f3-45a6-82e9-b4e80f986c94",
+    "condition": "obesity",
+    "onset_date": "2016-05-14T22:17:42.279616+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "79907428-43b7-42a0-a2e5-66d3c70601e2",
+    "condition": "hypertension",
+    "onset_date": "2016-04-01T22:17:42.308841+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6a8d736c-f6d2-4652-b007-caf74102a8e9",
+    "condition": "hypertension",
+    "onset_date": "2017-10-29T22:17:42.320905+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6a8d736c-f6d2-4652-b007-caf74102a8e9",
+    "condition": "obesity",
+    "onset_date": "2017-05-02T22:17:42.320905+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6a8d736c-f6d2-4652-b007-caf74102a8e9",
+    "condition": "heart_disease",
+    "onset_date": "2022-12-10T22:17:42.320905+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dcfbd7be-84f9-4301-bd15-1450829ad245",
+    "condition": "hypertension",
+    "onset_date": "2017-09-30T22:17:42.342156+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "8e513269-0703-4124-a403-12f4e8706cc0",
+    "condition": "hypertension",
+    "onset_date": "2018-06-25T22:17:42.415825+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "8e513269-0703-4124-a403-12f4e8706cc0",
+    "condition": "heart_disease",
+    "onset_date": "2022-02-04T22:17:42.415825+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "7b6b5540-fb24-4031-b4de-31971f0d90b7",
+    "condition": "hypertension",
+    "onset_date": "2018-07-23T22:17:42.433295+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "7b6b5540-fb24-4031-b4de-31971f0d90b7",
+    "condition": "obesity",
+    "onset_date": "2016-11-16T22:17:42.433295+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "2138ea09-1e84-4f59-80a3-9a535053840b",
+    "condition": "obesity",
+    "onset_date": "2017-07-18T22:17:42.448738+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "465d1ae7-b0d4-47d2-8655-fb63b28b4ade",
+    "condition": "hypertension",
+    "onset_date": "2020-03-12T22:17:42.477032+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dda3b931-d6b9-40b7-8e88-68471450728c",
+    "condition": "hypertension",
+    "onset_date": "2016-05-05T22:17:42.505747+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dda3b931-d6b9-40b7-8e88-68471450728c",
+    "condition": "diabetes_t2",
+    "onset_date": "2019-01-15T22:17:42.505747+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dda3b931-d6b9-40b7-8e88-68471450728c",
+    "condition": "obesity",
+    "onset_date": "2016-12-14T22:17:42.505747+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dda3b931-d6b9-40b7-8e88-68471450728c",
+    "condition": "heart_disease",
+    "onset_date": "2017-11-11T22:17:42.505747+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "2caef659-8133-4320-b2e2-aeb9d52f1acb",
+    "condition": "diabetes_t2",
+    "onset_date": "2023-10-28T22:17:42.522959+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "2caef659-8133-4320-b2e2-aeb9d52f1acb",
+    "condition": "obesity",
+    "onset_date": "2021-01-12T22:17:42.522959+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "945da06c-01b2-4add-9ca0-b5f93c82f053",
+    "condition": "hypertension",
+    "onset_date": "2023-04-11T22:17:42.538742+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9501dd08-074c-4d21-a694-54b04bdd7d38",
+    "condition": "hypertension",
+    "onset_date": "2023-02-01T22:17:42.555718+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9501dd08-074c-4d21-a694-54b04bdd7d38",
+    "condition": "heart_disease",
+    "onset_date": "2023-07-24T22:17:42.555718+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9501dd08-074c-4d21-a694-54b04bdd7d38",
+    "condition": "copd",
+    "onset_date": "2021-10-21T22:17:42.555718+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "caf9f3c5-d777-4bc1-9096-f776d78bcaf0",
+    "condition": "diabetes_t2",
+    "onset_date": "2020-06-09T22:17:42.590785+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "59e07156-24b0-4719-86f7-62ab9291d73b",
+    "condition": "hypertension",
+    "onset_date": "2020-09-05T22:17:42.604165+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "59e07156-24b0-4719-86f7-62ab9291d73b",
+    "condition": "obesity",
+    "onset_date": "2024-10-09T22:17:42.604165+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "c8e245bc-8e20-4309-b927-1453ca3dae92",
+    "condition": "obesity",
+    "onset_date": "2021-08-27T22:17:42.649175+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "7c4b0dc5-3b67-4efe-9e0e-b69cc1f8ac8b",
+    "condition": "hypertension",
+    "onset_date": "2022-11-24T22:17:42.675712+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "950f6a08-2a78-4647-8e4b-acf53274e854",
+    "condition": "obesity",
+    "onset_date": "2023-09-25T22:17:42.693052+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "950f6a08-2a78-4647-8e4b-acf53274e854",
+    "condition": "heart_disease",
+    "onset_date": "2021-12-04T22:17:42.693052+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "a8c32f4d-2276-4a33-918e-caba95742488",
+    "condition": "hypertension",
+    "onset_date": "2021-05-06T22:17:42.723831+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "47f928d8-2bf2-488f-95c4-96a1acab7330",
+    "condition": "obesity",
+    "onset_date": "2023-04-08T22:17:42.767982+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "786994c2-474c-4a30-b20c-868eab29f340",
+    "condition": "obesity",
+    "onset_date": "2019-12-14T22:17:42.782423+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "ca705a6a-d98f-468b-9dd8-a7b71747f149",
+    "condition": "hypertension",
+    "onset_date": "2023-12-01T22:17:42.855808+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "ca705a6a-d98f-468b-9dd8-a7b71747f149",
+    "condition": "heart_disease",
+    "onset_date": "2023-08-07T22:17:42.855808+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "2c1302e9-57c0-4e0b-b916-e0036c28e524",
+    "condition": "hypertension",
+    "onset_date": "2019-04-23T22:17:42.903016+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e6056004-6057-44f0-8f15-9372213144be",
+    "condition": "obesity",
+    "onset_date": "2024-12-31T22:17:42.946080+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "aa5f04f8-9ffc-458a-9f81-6408ba0aef7a",
+    "condition": "hypertension",
+    "onset_date": "2023-10-12T22:17:42.961478+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "aa5f04f8-9ffc-458a-9f81-6408ba0aef7a",
+    "condition": "diabetes_t2",
+    "onset_date": "2026-02-04T22:17:42.961478+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "277b60ba-3190-4577-a743-045eba7e12f7",
+    "condition": "hypertension",
+    "onset_date": "2018-06-17T22:17:43.019723+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "277b60ba-3190-4577-a743-045eba7e12f7",
+    "condition": "diabetes_t2",
+    "onset_date": "2022-03-26T22:17:43.019723+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "277b60ba-3190-4577-a743-045eba7e12f7",
+    "condition": "obesity",
+    "onset_date": "2024-05-02T22:17:43.019723+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "043951da-c49c-45eb-a87e-b84d23eef3d6",
+    "condition": "hypertension",
+    "onset_date": "2020-12-28T22:17:43.048089+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bf07c0a3-b059-48ae-bf0c-9f498d766a8b",
+    "condition": "hypertension",
+    "onset_date": "2019-07-09T22:17:43.063817+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bf07c0a3-b059-48ae-bf0c-9f498d766a8b",
+    "condition": "heart_disease",
+    "onset_date": "2018-07-12T22:17:43.063817+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "19ad9539-72b4-4388-a16f-0e90e1c05cc5",
+    "condition": "hypertension",
+    "onset_date": "2025-09-01T22:17:43.077246+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "19ad9539-72b4-4388-a16f-0e90e1c05cc5",
+    "condition": "obesity",
+    "onset_date": "2017-04-10T22:17:43.077246+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "19ad9539-72b4-4388-a16f-0e90e1c05cc5",
+    "condition": "heart_disease",
+    "onset_date": "2019-04-02T22:17:43.077246+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "54ad836b-5010-4faa-a9bd-bcd57f0a7130",
+    "condition": "hypertension",
+    "onset_date": "2022-06-18T22:17:43.108038+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d2bfdd21-58f8-4512-b4bb-919341d633cf",
+    "condition": "diabetes_t2",
+    "onset_date": "2021-12-17T22:17:43.136417+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "ad726b4a-c3bf-463f-b3d6-b07b38ba8fe1",
+    "condition": "diabetes_t2",
+    "onset_date": "2023-02-08T22:17:43.167554+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "ad726b4a-c3bf-463f-b3d6-b07b38ba8fe1",
+    "condition": "obesity",
+    "onset_date": "2017-06-24T22:17:43.167554+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "340734f0-cb29-4662-be27-016bac1ec630",
+    "condition": "hypertension",
+    "onset_date": "2018-02-22T22:17:43.183640+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "340734f0-cb29-4662-be27-016bac1ec630",
+    "condition": "heart_disease",
+    "onset_date": "2022-04-07T22:17:43.183640+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0e43274c-a3a9-4f11-80fe-77274c0a73bc",
+    "condition": "hypertension",
+    "onset_date": "2023-06-18T22:17:43.198992+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0e43274c-a3a9-4f11-80fe-77274c0a73bc",
+    "condition": "diabetes_t2",
+    "onset_date": "2016-08-02T22:17:43.198992+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "0e43274c-a3a9-4f11-80fe-77274c0a73bc",
+    "condition": "heart_disease",
+    "onset_date": "2022-09-12T22:17:43.198992+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "321edd9a-8f35-4251-bb89-78d3e5cc9245",
+    "condition": "diabetes_t2",
+    "onset_date": "2016-10-11T22:17:43.285225+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "321edd9a-8f35-4251-bb89-78d3e5cc9245",
+    "condition": "heart_disease",
+    "onset_date": "2018-03-30T22:17:43.285225+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "185e14d2-5d7c-4227-8794-2574cc9809e7",
+    "condition": "hypertension",
+    "onset_date": "2018-09-11T22:17:43.301611+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "185e14d2-5d7c-4227-8794-2574cc9809e7",
+    "condition": "copd",
+    "onset_date": "2022-04-03T22:17:43.301611+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "08c426bb-8ef3-485e-be5a-11e5d80a3758",
+    "condition": "diabetes_t2",
+    "onset_date": "2016-06-15T22:17:43.344937+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "67edc7cf-cc12-4ca8-b713-c2d3270e4a4c",
+    "condition": "obesity",
+    "onset_date": "2025-01-12T22:17:43.373235+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "516310ce-0ac7-45e8-b3a4-7beda3f7698e",
+    "condition": "obesity",
+    "onset_date": "2020-01-10T22:17:43.403639+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bb64ce84-09ce-4130-b65c-b69486f943d0",
+    "condition": "hypertension",
+    "onset_date": "2018-09-11T22:17:43.420377+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bb64ce84-09ce-4130-b65c-b69486f943d0",
+    "condition": "heart_disease",
+    "onset_date": "2017-02-11T22:17:43.420377+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "163ecc36-ffce-4e6c-808b-fb37c6ac90ec",
+    "condition": "hypertension",
+    "onset_date": "2020-05-09T22:17:43.451416+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "565aeb92-f824-43fc-8751-10ab61a26f4b",
+    "condition": "hypertension",
+    "onset_date": "2016-06-08T22:17:43.463952+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "565aeb92-f824-43fc-8751-10ab61a26f4b",
+    "condition": "obesity",
+    "onset_date": "2023-04-19T22:17:43.463952+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "78f52da8-abfd-4459-937e-36671009816f",
+    "condition": "obesity",
+    "onset_date": "2025-11-16T22:17:43.479711+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "545af5d4-163c-483f-947b-bc63502d5149",
+    "condition": "hypertension",
+    "onset_date": "2017-10-28T22:17:43.494506+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "545af5d4-163c-483f-947b-bc63502d5149",
+    "condition": "heart_disease",
+    "onset_date": "2017-10-21T22:17:43.494506+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e5b2d553-0931-4aff-8002-b095141b35c0",
+    "condition": "obesity",
+    "onset_date": "2018-02-20T22:17:43.510369+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e5b2d553-0931-4aff-8002-b095141b35c0",
+    "condition": "copd",
+    "onset_date": "2019-09-20T22:17:43.510369+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "5c9c0040-c4a9-4eb6-ace4-58ab333d9edd",
+    "condition": "heart_disease",
+    "onset_date": "2022-08-15T22:17:43.537987+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "75b3b5b3-ba31-428a-bb61-a3a87ca117f1",
+    "condition": "hypertension",
+    "onset_date": "2017-10-20T22:17:43.551877+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "75b3b5b3-ba31-428a-bb61-a3a87ca117f1",
+    "condition": "obesity",
+    "onset_date": "2021-02-10T22:17:43.551877+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "00284fca-e48d-4e33-9d89-9cc0926358aa",
+    "condition": "heart_disease",
+    "onset_date": "2023-02-07T22:17:43.579643+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f70d4525-be0a-4128-857e-3cce42f3a7c6",
+    "condition": "obesity",
+    "onset_date": "2021-06-12T22:17:43.596086+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "5a9d4a3d-1bf1-484f-ba3c-22c44ef93ed7",
+    "condition": "diabetes_t2",
+    "onset_date": "2020-10-12T22:17:43.611807+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d80a561b-0d67-4794-9153-3f8ba30687b5",
+    "condition": "hypertension",
+    "onset_date": "2019-02-21T22:17:43.682652+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d80a561b-0d67-4794-9153-3f8ba30687b5",
+    "condition": "obesity",
+    "onset_date": "2020-01-20T22:17:43.682652+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b81e5865-ce61-4263-b471-718f7657300d",
+    "condition": "hypertension",
+    "onset_date": "2025-11-12T22:17:43.698251+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b81e5865-ce61-4263-b471-718f7657300d",
+    "condition": "copd",
+    "onset_date": "2023-01-27T22:17:43.698251+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "315a5a91-ea5f-4f9d-b01c-dacf058d356b",
+    "condition": "hypertension",
+    "onset_date": "2018-03-03T22:17:43.713289+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e22b3fbb-eb5b-4e14-aa2a-9576ac14ee3a",
+    "condition": "diabetes_t2",
+    "onset_date": "2023-11-30T22:17:43.729161+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e22b3fbb-eb5b-4e14-aa2a-9576ac14ee3a",
+    "condition": "obesity",
+    "onset_date": "2025-01-07T22:17:43.729161+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e22b3fbb-eb5b-4e14-aa2a-9576ac14ee3a",
+    "condition": "heart_disease",
+    "onset_date": "2024-06-25T22:17:43.729161+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "872457c0-44f7-4999-a86a-32ee8e0ec8fb",
+    "condition": "obesity",
+    "onset_date": "2018-03-06T22:17:43.742469+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "dc64cb64-ca89-4d67-9811-5d37f11ed3ec",
+    "condition": "hypertension",
+    "onset_date": "2016-03-18T22:17:43.756773+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f7e9ceed-1223-43f7-9e3a-b6ff7b466874",
+    "condition": "hypertension",
+    "onset_date": "2025-05-22T22:17:43.816997+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "f7e9ceed-1223-43f7-9e3a-b6ff7b466874",
+    "condition": "obesity",
+    "onset_date": "2018-12-11T22:17:43.816997+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6208db38-316a-4641-a7df-3a18b39f4730",
+    "condition": "diabetes_t2",
+    "onset_date": "2018-02-08T22:17:43.832571+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "85d154d2-aa43-4d28-a523-69a0d646eb48",
+    "condition": "hypertension",
+    "onset_date": "2021-04-04T22:17:43.848267+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "85d154d2-aa43-4d28-a523-69a0d646eb48",
+    "condition": "obesity",
+    "onset_date": "2023-03-06T22:17:43.848267+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "15966b04-f54c-47c0-ae05-6c1d615ea55a",
+    "condition": "hypertension",
+    "onset_date": "2025-08-31T22:17:43.895680+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4d79a187-d2a7-4d4f-8264-3b993a5b46a3",
+    "condition": "hypertension",
+    "onset_date": "2016-11-13T22:17:43.930049+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4d79a187-d2a7-4d4f-8264-3b993a5b46a3",
+    "condition": "heart_disease",
+    "onset_date": "2017-10-07T22:17:43.930049+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "11a5a04d-2058-456a-b507-2a9857e65b92",
+    "condition": "diabetes_t2",
+    "onset_date": "2023-06-23T22:17:43.962840+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "63fa88ff-a0be-48ce-8ba3-60ecc00e922b",
+    "condition": "hypertension",
+    "onset_date": "2025-12-13T22:17:43.993950+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "63fa88ff-a0be-48ce-8ba3-60ecc00e922b",
+    "condition": "diabetes_t2",
+    "onset_date": "2017-11-23T22:17:43.993950+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "63fa88ff-a0be-48ce-8ba3-60ecc00e922b",
+    "condition": "obesity",
+    "onset_date": "2026-01-06T22:17:43.993950+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "a264acbc-dc42-48ae-a66a-5ea561d48e72",
+    "condition": "obesity",
+    "onset_date": "2019-09-16T22:17:44.026788+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4505bf67-f44b-4ee8-b409-65e2c5de7ef2",
+    "condition": "hypertension",
+    "onset_date": "2022-01-17T22:17:44.044221+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4505bf67-f44b-4ee8-b409-65e2c5de7ef2",
+    "condition": "diabetes_t2",
+    "onset_date": "2019-03-05T22:17:44.044221+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "725d0a00-a151-4aa9-a018-ab036d1f7f85",
+    "condition": "hypertension",
+    "onset_date": "2021-08-30T22:17:44.061346+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "725d0a00-a151-4aa9-a018-ab036d1f7f85",
+    "condition": "obesity",
+    "onset_date": "2017-12-20T22:17:44.061346+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "725d0a00-a151-4aa9-a018-ab036d1f7f85",
+    "condition": "heart_disease",
+    "onset_date": "2023-09-20T22:17:44.061346+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "bb4ef0f1-c587-45a9-bdf3-0dfc230d91d6",
+    "condition": "hypertension",
+    "onset_date": "2018-02-11T22:17:44.162784+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "b712345a-1e80-4bfe-a144-eaf51603da48",
+    "condition": "obesity",
+    "onset_date": "2018-03-20T22:17:44.219986+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9c8d728f-e315-48dc-9b2e-99e89b08067c",
+    "condition": "obesity",
+    "onset_date": "2019-10-23T22:17:44.273901+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "9c8d728f-e315-48dc-9b2e-99e89b08067c",
+    "condition": "heart_disease",
+    "onset_date": "2021-08-07T22:17:44.273901+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "e3a505fa-bc7b-46d0-9d8e-729292f5501b",
+    "condition": "obesity",
+    "onset_date": "2019-01-27T22:17:44.289013+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "d91e52df-8ac9-49b7-9e93-ad1b7ac40a1e",
+    "condition": "hypertension",
+    "onset_date": "2024-09-10T22:17:44.349119+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4ae97395-b23f-4eb9-b8e2-09df7540831c",
+    "condition": "obesity",
+    "onset_date": "2024-04-29T22:17:44.394108+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4ae97395-b23f-4eb9-b8e2-09df7540831c",
+    "condition": "copd",
+    "onset_date": "2017-11-09T22:17:44.394108+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "236839f3-5d7e-4a92-9d85-42385d701839",
+    "condition": "obesity",
+    "onset_date": "2019-12-20T22:17:44.425794+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "19183602-2980-4a42-b402-160f7981f8d6",
+    "condition": "obesity",
+    "onset_date": "2025-02-21T22:17:44.441722+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "167a4eaf-3e95-4b01-9cdb-465652e0b382",
+    "condition": "heart_disease",
+    "onset_date": "2022-03-05T22:17:44.485251+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "1e3b9be0-37fa-4487-86ba-c151c7836606",
+    "condition": "obesity",
+    "onset_date": "2025-11-09T22:17:44.499984+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "4884ed80-cf46-439f-a0e9-a035d36f5151",
+    "condition": "obesity",
+    "onset_date": "2016-11-15T22:17:44.514345+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "35ec00e5-4a4d-4f81-93d4-1bee930a3448",
+    "condition": "hypertension",
+    "onset_date": "2023-10-01T22:17:44.530441+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "35ec00e5-4a4d-4f81-93d4-1bee930a3448",
+    "condition": "diabetes_t2",
+    "onset_date": "2016-11-07T22:17:44.530441+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "35ec00e5-4a4d-4f81-93d4-1bee930a3448",
+    "condition": "heart_disease",
+    "onset_date": "2019-05-11T22:17:44.530441+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6128d12d-f932-4e5a-8a02-88d1f38126d0",
+    "condition": "hypertension",
+    "onset_date": "2025-04-02T22:17:44.546565+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "6128d12d-f932-4e5a-8a02-88d1f38126d0",
+    "condition": "heart_disease",
+    "onset_date": "2018-12-28T22:17:44.546565+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "77352301-3f20-4f16-a223-bc5367da4cc8",
+    "condition": "hypertension",
+    "onset_date": "2021-03-04T22:17:44.561541+00:00",
+    "diagnosed_by": "simulated"
+  },
+  {
+    "patient_id": "77352301-3f20-4f16-a223-bc5367da4cc8",
+    "condition": "copd",
+    "onset_date": "2019-05-09T22:17:44.561541+00:00",
+    "diagnosed_by": "simulated"
+  }
+]

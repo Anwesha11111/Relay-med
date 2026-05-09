@@ -4,12 +4,12 @@ from typing import Literal
 
 class Settings(BaseSettings):
     # App Info
-    APP_NAME: str = "SecureMed AI Health Companion"
+    APP_NAME: str = "Relay-med AI Health Companion"
     API_V1_STR: str = "/api/v1"
     
     # LLM Configuration
-    # Options: "ollama" | "gemini"
-    LLM_PROVIDER: Literal["ollama", "gemini"] = "gemini"
+    # Options: "ollama" | "gemini" | "fallback"
+    LLM_PROVIDER: Literal["ollama", "gemini", "fallback"] = "gemini"
     GEMINI_API_KEY: str = ""
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3:latest"
@@ -29,6 +29,16 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "sqlite:///./securemed.db"
+
+    # CORS — allowed frontend origins
+    CORS_ORIGINS: str = "*"
+
+    @property
+    def effective_provider(self) -> str:
+        """Auto-detect: if gemini is chosen but no API key, fall back gracefully."""
+        if self.LLM_PROVIDER == "gemini" and not self.GEMINI_API_KEY:
+            return "fallback"
+        return self.LLM_PROVIDER
 
     class Config:
         env_file = ".env"

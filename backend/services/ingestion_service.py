@@ -15,6 +15,7 @@ from backend.services.emergency_triage import emergency_triage_service
 from backend.services.audit_logger import audit_logger, AuditEventType
 from backend.models.risk_finding import RiskFinding
 from backend.services.differential_privacy import dp_engine
+from backend.services.plausibility_validator import plausibility_validator, CorrectionAction
 
 # Physiological range config: {vital_type: (min, max)}
 PHYSIOLOGICAL_RANGES = {
@@ -54,7 +55,7 @@ class IngestResult:
 class IngestionService:
 
     async def ingest(self, record: VitalRecord, user_id: str = "default") -> IngestResult:
-        # 1. Validate
+        # 1. Validate (basic field/duplicate/future checks)
         validation = self.validate(record)
         if not validation.valid:
             audit_logger.log(
@@ -68,11 +69,30 @@ class IngestionService:
         record.tags.extend(validation.tags)
         record.tags = list(set(record.tags))
 
+        # 2.5 Plausibility validation & auto-correction
+        plaus_result = plausibility_validator.validate(record, user_id)
+        if plaus_result.action == CorrectionAction.REJECT:
+            return IngestResult(
+                success=False, record_id=None, tags=["REJECTED"],
+                errors=[f"Plausibility rejection ({plaus_result.layer}): " + "; ".join(plaus_result.issues)],
+                triage_findings=[],
+            )
+        if plaus_result.corrected_value is not None:
+            # Store original in metadata, use corrected value
+            record.metadata["original_value"] = plaus_result.original_value
+            record.metadata["correction_action"] = plaus_result.action.value
+            record.metadata["correction_layer"] = plaus_result.layer
+            record.value = plaus_result.corrected_value
+            record.tags.append("AUTO_CORRECTED")
+        if plaus_result.issues:
+            record.tags.append("PLAUSIBILITY_FLAG")
+            for issue in plaus_result.issues:
+                record.metadata.setdefault("plausibility_issues", []).append(issue)
+
         # 3. Compute trust score
         record.trust_score = trust_scorer.compute_trust_score(record)
 
         # 4. Anti-Hacking: Apply Differential Privacy Noise
-        # This ensures GNN and ML models only see the 'privatized' view of the data.
         record.privatized_value = dp_engine.protect_value(record.value, record.vital_type)
         audit_logger.log(
             AuditEventType.PRIVACY_SHIELD_ACTIVATED,
@@ -83,10 +103,10 @@ class IngestionService:
         # 5. Add to health graph
         health_graph.add_node(record)
 
-        # 5. Emergency triage (red/yellow flags) — never suppressed by trust
+        # 6. Emergency triage (red/yellow flags) — never suppressed by trust
         triage_findings = emergency_triage_service.evaluate_red_flags(record)
 
-        # 6. Log success
+        # 7. Log success
         audit_logger.log(
             AuditEventType.INGEST_SUCCESS,
             {"record_id": record.id, "vital_type": record.vital_type, "trust_score": record.trust_score},

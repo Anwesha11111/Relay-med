@@ -1,0 +1,189 @@
+[
+  {
+    "id": "0f76232b-d6d5-45e1-8215-fe08b6918c20",
+    "report_id": "test-report-1",
+    "feedback_type": "false_alarm",
+    "user_comment": "This was not a real alert",
+    "corrected_value": 72.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T21:59:58.119454+00:00",
+    "applied": false
+  },
+  {
+    "id": "e6b0e17c-d0b1-454d-8fbc-9e2286e2df46",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #1: HR alert was false positive",
+    "corrected_value": 72.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:12.713823+00:00",
+    "applied": false
+  },
+  {
+    "id": "241c9417-80e6-4678-ab71-0b192089ee7f",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #2: HR alert was false positive",
+    "corrected_value": 73.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:12.715418+00:00",
+    "applied": false
+  },
+  {
+    "id": "3780379d-f11b-4889-ab85-cb17ea8b4e8f",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #3: HR alert was false positive",
+    "corrected_value": 74.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:12.716510+00:00",
+    "applied": false
+  },
+  {
+    "id": "8cfcf88d-376a-4de6-8044-c4feaf346d44",
+    "report_id": "test-report-002",
+    "feedback_type": "wrong_recommendation",
+    "user_comment": "The sleep recommendation was not helpful",
+    "corrected_value": null,
+    "user_role": "patient",
+    "vital_type": null,
+    "submitted_at": "2026-05-08T22:23:12.716510+00:00",
+    "applied": false
+  },
+  {
+    "id": "0b7a2eeb-3fb2-4502-95af-41b68ad86a93",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #1: HR alert was false positive",
+    "corrected_value": 72.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:35.505249+00:00",
+    "applied": false
+  },
+  {
+    "id": "4a973fa4-a830-467d-843c-71aaf7d4b9a0",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #2: HR alert was false positive",
+    "corrected_value": 73.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:35.506268+00:00",
+    "applied": false
+  },
+  {
+    "id": "7169627a-868b-481e-9de1-4e46651eb37e",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #3: HR alert was false positive",
+    "corrected_value": 74.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-08T22:23:35.507267+00:00",
+    "applied": false
+  },
+  {
+    "id": "8557c953-16e1-42e6-b2dc-44e7fdab7cec",
+    "report_id": "test-report-002",
+    "feedback_type": "wrong_recommendation",
+    "user_comment": "The sleep recommendation was not helpful",
+    "corrected_value": null,
+    "user_role": "patient",
+    "vital_type": null,
+    "submitted_at": "2026-05-08T22:23:35.509171+00:00",
+    "applied": false
+  },
+  {
+    "id": "b599bae8-9c5c-4286-87da-9ce5d203da77",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #1: HR alert was false positive",
+    "corrected_value": 72.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T18:21:17.296762+00:00",
+    "applied": false
+  },
+  {
+    "id": "157cd442-c647-40f1-a3d6-f831f89b391a",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #2: HR alert was false positive",
+    "corrected_value": 73.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T18:21:17.297776+00:00",
+    "applied": false
+  },
+  {
+    "id": "9de4c33d-c2f3-498b-80fb-a06abd13e084",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #3: HR alert was false positive",
+    "corrected_value": 74.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T18:21:17.298769+00:00",
+    "applied": false
+  },
+  {
+    "id": "2a6c1979-18dd-4225-a5ae-cc001341b8ac",
+    "report_id": "test-report-002",
+    "feedback_type": "wrong_recommendation",
+    "user_comment": "The sleep recommendation was not helpful",
+    "corrected_value": null,
+    "user_role": "patient",
+    "vital_type": null,
+    "submitted_at": "2026-05-09T18:21:17.300273+00:00",
+    "applied": false
+  },
+  {
+    "id": "b2bc1051-05ec-41c7-ae63-7d3dd365512e",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #1: HR alert was false positive",
+    "corrected_value": 72.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T19:16:33.712280+00:00",
+    "applied": false
+  },
+  {
+    "id": "39c3cdb2-7d31-484c-9312-ffae22dc2e9d",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #2: HR alert was false positive",
+    "corrected_value": 73.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T19:16:33.714389+00:00",
+    "applied": false
+  },
+  {
+    "id": "ddc0db11-6c9b-4c7f-b15e-696cbe4ab37a",
+    "report_id": "test-report-001",
+    "feedback_type": "false_alarm",
+    "user_comment": "Clinician correction #3: HR alert was false positive",
+    "corrected_value": 74.0,
+    "user_role": "clinician",
+    "vital_type": "heart_rate",
+    "submitted_at": "2026-05-09T19:16:33.714899+00:00",
+    "applied": false
+  },
+  {
+    "id": "2acea1db-59e6-458c-9b6e-eeda06e9410d",
+    "report_id": "test-report-002",
+    "feedback_type": "wrong_recommendation",
+    "user_comment": "The sleep recommendation was not helpful",
+    "corrected_value": null,
+    "user_role": "patient",
+    "vital_type": null,
+    "submitted_at": "2026-05-09T19:16:33.716430+00:00",
+    "applied": false
+  }
+]

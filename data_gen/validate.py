@@ -1,6 +1,8 @@
 """
 validate.py — Validates synthetic data distributions vs expected population stats
 using KL divergence to ensure the generated data is clinically realistic.
+
+Extended with demographic distribution validation and bias metrics.
 """
 
 import json
@@ -76,7 +78,7 @@ def validate_file(path: str = "./data/synthetic_records.json") -> bool:
         if vt:
             by_type.setdefault(vt, []).append(float(rec["value"]))
 
-    print(f"\n📋 Validating {len(records)} records across {len(by_type)} vital types…\n")
+    print(f"\n[VALIDATE] Validating {len(records)} records across {len(by_type)} vital types...\n")
     all_pass = True
 
     for vt, values in by_type.items():
@@ -106,7 +108,7 @@ def validate_file(path: str = "./data/synthetic_records.json") -> bool:
         q = hist_shared(ref)
         kl = kl_divergence(p, q)
 
-        status = "✅ PASS" if kl < KL_THRESHOLD else "❌ FAIL"
+        status = "[PASS]" if kl < KL_THRESHOLD else "[FAIL]"
         if kl >= KL_THRESHOLD:
             all_pass = False
 
@@ -119,7 +121,87 @@ def validate_file(path: str = "./data/synthetic_records.json") -> bool:
               f"std={actual_std:>6.1f} (ref {std:>5.1f})  "
               f"KL={kl:.4f}")
 
-    print(f"\n{'✅ All distributions within KL threshold.' if all_pass else '❌ Some distributions deviate beyond threshold.'}\n")
+    print(f"\n{'[PASS] All distributions within KL threshold.' if all_pass else '[FAIL] Some distributions deviate beyond threshold.'}\n")
+    return all_pass
+
+
+def validate_demographics(dataset_dir: str = "./data/reference_dataset") -> bool:
+    """Validate demographic distribution of the generated dataset."""
+    ddir = Path(dataset_dir)
+    patients_path = ddir / "patients.json"
+
+    if not patients_path.exists():
+        print(f"[WARN] Patients file not found: {patients_path}")
+        return False
+
+    with open(patients_path, "r", encoding="utf-8") as f:
+        patients = json.load(f)
+
+    n = len(patients)
+    print(f"\n[DEMO] Demographic Validation -- {n} patients\n")
+
+    from data_gen.population_profiles import (
+        AGE_BUCKET_WEIGHTS, GENDER_WEIGHTS, ETHNICITY_WEIGHTS,
+    )
+
+    all_pass = True
+
+    # Age distribution
+    print("  -- Age Buckets --")
+    age_counts: Dict[str, int] = {}
+    for p in patients:
+        ab = p.get("age_bucket", "unknown")
+        age_counts[ab] = age_counts.get(ab, 0) + 1
+    for ab, expected_w in AGE_BUCKET_WEIGHTS.items():
+        actual_w = age_counts.get(ab, 0) / n
+        deviation = abs(actual_w - expected_w)
+        ok = deviation < 0.05  # Allow 5% deviation
+        status = "[OK]" if ok else "[!!]"
+        if not ok:
+            all_pass = False
+        print(f"    {status} {ab:<15} {actual_w:.1%} (expected {expected_w:.1%}, dev={deviation:.1%})")
+
+    # Gender distribution
+    print("  -- Gender --")
+    gender_counts: Dict[str, int] = {}
+    for p in patients:
+        g = p.get("gender", "unknown")
+        gender_counts[g] = gender_counts.get(g, 0) + 1
+    for g, expected_w in GENDER_WEIGHTS.items():
+        actual_w = gender_counts.get(g, 0) / n
+        deviation = abs(actual_w - expected_w)
+        ok = deviation < 0.05
+        status = "[OK]" if ok else "[!!]"
+        if not ok:
+            all_pass = False
+        print(f"    {status} {g:<15} {actual_w:.1%} (expected {expected_w:.1%}, dev={deviation:.1%})")
+
+    # Ethnicity distribution
+    print("  -- Ethnicity --")
+    eth_counts: Dict[str, int] = {}
+    for p in patients:
+        e = p.get("ethnicity", "unknown")
+        eth_counts[e] = eth_counts.get(e, 0) + 1
+    for e, expected_w in ETHNICITY_WEIGHTS.items():
+        actual_w = eth_counts.get(e, 0) / n
+        deviation = abs(actual_w - expected_w)
+        ok = deviation < 0.05
+        status = "[OK]" if ok else "[!!]"
+        if not ok:
+            all_pass = False
+        print(f"    {status} {e:<15} {actual_w:.1%} (expected {expected_w:.1%}, dev={deviation:.1%})")
+
+    # Condition distribution
+    print("  -- Conditions --")
+    cond_counts: Dict[str, int] = {}
+    for p in patients:
+        for c in p.get("conditions", []):
+            cond_counts[c] = cond_counts.get(c, 0) + 1
+    for c, count in sorted(cond_counts.items(), key=lambda x: -x[1]):
+        print(f"    {c:<20} {count:>5} ({count/n:.1%})")
+
+    result = "[PASS] Demographics within tolerance." if all_pass else "[FAIL] Some demographics deviate beyond tolerance."
+    print(f"\n{result}\n")
     return all_pass
 
 
@@ -127,6 +209,14 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Validate synthetic data distributions")
     parser.add_argument("--file", type=str, default="./data/synthetic_records.json")
+    parser.add_argument("--dataset-dir", type=str, default="./data/reference_dataset")
+    parser.add_argument("--demographics", action="store_true", help="Also validate demographics")
     args = parser.parse_args()
+
     ok = validate_file(args.file)
+
+    if args.demographics:
+        demo_ok = validate_demographics(args.dataset_dir)
+        ok = ok and demo_ok
+
     raise SystemExit(0 if ok else 1)

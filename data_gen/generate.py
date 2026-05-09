@@ -126,31 +126,42 @@ if __name__ == "__main__":
     import asyncio
     import argparse
 
-    parser = argparse.ArgumentParser(description="SecureMed synthetic data generator")
+    parser = argparse.ArgumentParser(description="Relay-med synthetic data generator")
+    parser.add_argument("--mode",        type=str,   default="quick", choices=["quick", "full"],
+                        help="'quick' = original dev generator, 'full' = scaled population generator")
     parser.add_argument("--days",        type=int,   default=DAYS_BACK,    help="Days of history to generate")
+    parser.add_argument("--patients",    type=int,   default=5000,         help="Number of patients (full mode only)")
     parser.add_argument("--discard-rate", type=float, default=0.05,        help="Fraction of discrepant records (0–1)")
     parser.add_argument("--save-only",   action="store_true",               help="Save to file without ingesting")
     parser.add_argument("--file",        type=str,   default="./data/synthetic_records.json")
     args = parser.parse_args()
 
-    print(f"Generating {args.days} days of synthetic data (discrepancy rate: {args.discard_rate:.0%})...")
-    records = generate_records(days=args.days, discrepancy_rate=args.discard_rate)
-    print(f"Generated {len(records)} records.")
+    if args.mode == "full":
+        # Delegate to scaled population generator
+        from data_gen.scaled_generator import generate_population
+        generate_population(
+            n_patients=args.patients,
+            days=args.days,
+            discrepancy_rate=args.discard_rate,
+        )
+    else:
+        print(f"Generating {args.days} days of synthetic data (discrepancy rate: {args.discard_rate:.0%})...")
+        records = generate_records(days=args.days, discrepancy_rate=args.discard_rate)
+        print(f"Generated {len(records)} records.")
 
-    save_to_file(records, args.file)
+        save_to_file(records, args.file)
 
-    if not args.save_only:
-        # First grant consent
-        async def run():
-            async with httpx.AsyncClient() as client:
-                await client.post(f"{API_BASE}/consent", json={
-                    "user_id": USER_ID, "stream_id": STREAM_ID, "consented": True
-                })
-            print("Consent granted.")
-            counters = await ingest_records(records)
-            print(f"\nIngestion complete:")
-            print(f"   Success:  {counters['success']}")
-            print(f"   Failed:   {counters['failed']}")
-            print(f"   Alerts:   {counters['alerts']}")
+        if not args.save_only:
+            async def run():
+                async with httpx.AsyncClient() as client:
+                    await client.post(f"{API_BASE}/consent", json={
+                        "user_id": USER_ID, "stream_id": STREAM_ID, "consented": True
+                    })
+                print("Consent granted.")
+                counters = await ingest_records(records)
+                print(f"\nIngestion complete:")
+                print(f"   Success:  {counters['success']}")
+                print(f"   Failed:   {counters['failed']}")
+                print(f"   Alerts:   {counters['alerts']}")
 
-        asyncio.run(run())
+            asyncio.run(run())

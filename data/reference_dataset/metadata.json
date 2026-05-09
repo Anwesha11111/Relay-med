@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-05-08T22:17:46.540213+00:00",
+  "generator_version": "2.0.0",
+  "seed": 42,
+  "n_patients": 200,
+  "n_days": 60,
+  "readings_per_day": 4,
+  "discrepancy_rate": 0.03,
+  "total_vital_readings": 137881,
+  "total_conditions": 193,
+  "demographic_summary": {
+    "by_age_bucket": {
+      "middle_aged": 52,
+      "elderly": 64,
+      "young_adult": 43,
+      "pediatric": 41
+    },
+    "by_gender": {
+      "male": 89,
+      "female": 111
+    },
+    "by_ethnicity": {
+      "white": 124,
+      "black": 22,
+      "hispanic": 32,
+      "asian": 12,
+      "other": 10
+    },
+    "by_condition": {
+      "hypertension": 60,
+      "diabetes_t2": 26,
+      "obesity": 65,
+      "heart_disease": 33,
+      "healthy": 85,
+      "copd": 9
+    }
+  },
+  "vital_summary": {
+    "temperature": {
+      "count": 15089,
+      "mean": 36.52,
+      "std": 3.01,
+      "min": 10.5,
+      "max": 59.99
+    },
+    "glucose_fasting": {
+      "count": 14909,
+      "mean": 105.44,
+      "std": 45.12,
+      "min": 18.42,
+      "max": 449.82
+    },
+    "spo2": {
+      "count": 15010,
+      "mean": 96.19,
+      "std": 8.36,
+      "min": 25.73,
+      "max": 149.97
+    },
+    "blood_pressure_diastolic": {
+      "count": 14775,
+      "mean": 80.99,
+      "std": 19.81,
+      "min": 15.12,
+      "max": 194.85
+    },
+    "steps": {
+      "count": 14958,
+      "mean": 5960.08,
+      "std": 6806.02,
+      "min": -24174.65,
+      "max": 59967.46
+    },
+    "sleep_hours": {
+      "count": 15028,
+      "mean": 7.19,
+      "std": 2.31,
+      "min": 0.6,
+      "max": 20.89
+    },
+    "blood_pressure_systolic": {
+      "count": 14890,
+      "mean": 136.55,
+      "std": 36.4,
+      "min": 24.04,
+      "max": 299.4
+    },
+    "respiratory_rate": {
+      "count": 14922,
+      "mean": 17.75,
+      "std": 5.08,
+      "min": 2.4,
+      "max": 44.7
+    },
+    "heart_rate": {
+      "count": 14955,
+      "mean": 82.49,
+      "std": 24.61,
+      "min": 12.39,
+      "max": 269.49
+    },
+    "weight": {
+      "count": 1665,
+      "mean": 73.96,
+      "std": 44.93,
+      "min": 3.34,
+      "max": 374.97
+    },
+    "bmi": {
+      "count": 1680,
+      "mean": 27.69,
+      "std": 9.55,
+      "min": 4.23,
+      "max": 89.14
+    }
+  }
+}
