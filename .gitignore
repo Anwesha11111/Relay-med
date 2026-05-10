@@ -14,3 +14,4 @@ data/*.csv
 node_modules/
 dist/
 build/
+.env.example
