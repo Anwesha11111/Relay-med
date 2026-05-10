@@ -32,6 +32,17 @@ function Page() {
   const [saved, setSaved] = useState(false);
   const [reports, setReports] = useState<string[]>([]);
 
+  const [dataSharing] = useState(() => { try { const v = localStorage.getItem("relaymed_data_sharing"); return v !== null ? JSON.parse(v) : true; } catch {} return true; });
+  const [shareVitals] = useState(() => { try { const v = localStorage.getItem("relaymed_share_vitals"); return v !== null ? JSON.parse(v) : true; } catch {} return true; });
+  const [shareActivity] = useState(() => { try { const v = localStorage.getItem("relaymed_share_activity"); return v !== null ? JSON.parse(v) : true; } catch {} return true; });
+  const [shareMedicalHistory] = useState(() => { try { const v = localStorage.getItem("relaymed_share_history"); return v !== null ? JSON.parse(v) : false; } catch {} return false; });
+  const [shareDocs] = useState(() => { try { const v = localStorage.getItem("relaymed_share_docs"); return v !== null ? JSON.parse(v) : false; } catch {} return false; });
+
+  const canSaveVitals = dataSharing && shareVitals;
+  const canSaveActivity = dataSharing && shareActivity;
+  const canSaveHistory = dataSharing && shareMedicalHistory;
+  const canSaveDocs = dataSharing && shareDocs;
+
   useEffect(() => {
     try { const r = localStorage.getItem("relaymed_reports"); if (r) setReports(JSON.parse(r)); } catch {}
   }, []);
@@ -39,12 +50,20 @@ function Page() {
   const update = (key: string, val: string) => setHealthData(prev => ({ ...prev, [key]: val }));
 
   const handleSave = () => {
+    if (!dataSharing) {
+      alert("Data Sharing is currently disabled in your settings. Please enable it to save your data.");
+      return;
+    }
     saveHealthData(healthData);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!canSaveDocs) {
+      alert("Document sharing is disabled in your settings.");
+      return;
+    }
     const files = e.target.files;
     if (!files) return;
     const names = [...reports];
@@ -133,7 +152,7 @@ function Page() {
               <div className="font-medium text-sm">Glucometer</div>
             </div>
             <label className="text-xs text-muted-foreground">Blood Glucose (mg/dL)</label>
-            <input type="number" value={healthData.blood_glucose || ""} onChange={e => update("blood_glucose", e.target.value)} placeholder="e.g. 110" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" value={healthData.blood_glucose || ""} onChange={e => update("blood_glucose", e.target.value)} disabled={!canSaveVitals} placeholder="e.g. 110" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
           </div>
 
           {/* BP Machine */}
@@ -143,8 +162,8 @@ function Page() {
               <div className="font-medium text-sm">BP Machine</div>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div><label className="text-xs text-muted-foreground">Systolic</label><input type="number" value={healthData.systolic || ""} onChange={e => update("systolic", e.target.value)} placeholder="120" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" /></div>
-              <div><label className="text-xs text-muted-foreground">Diastolic</label><input type="number" value={healthData.diastolic || ""} onChange={e => update("diastolic", e.target.value)} placeholder="80" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" /></div>
+              <div><label className="text-xs text-muted-foreground">Systolic</label><input type="number" value={healthData.systolic || ""} onChange={e => update("systolic", e.target.value)} disabled={!canSaveVitals} placeholder="120" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" /></div>
+              <div><label className="text-xs text-muted-foreground">Diastolic</label><input type="number" value={healthData.diastolic || ""} onChange={e => update("diastolic", e.target.value)} disabled={!canSaveVitals} placeholder="80" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" /></div>
             </div>
           </div>
 
@@ -155,9 +174,9 @@ function Page() {
               <div className="font-medium text-sm">Pulse Oximeter</div>
             </div>
             <label className="text-xs text-muted-foreground">SpO2 (%)</label>
-            <input type="number" value={healthData.spo2 || ""} onChange={e => update("spo2", e.target.value)} placeholder="e.g. 98" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" value={healthData.spo2 || ""} onChange={e => update("spo2", e.target.value)} disabled={!canSaveVitals} placeholder="e.g. 98" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
             <label className="text-xs text-muted-foreground mt-2 block">Heart Rate (bpm)</label>
-            <input type="number" value={healthData.heart_rate || ""} onChange={e => update("heart_rate", e.target.value)} placeholder="e.g. 72" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" value={healthData.heart_rate || ""} onChange={e => update("heart_rate", e.target.value)} disabled={!canSaveVitals} placeholder="e.g. 72" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
           </div>
 
           {/* Thermometer */}
@@ -167,9 +186,9 @@ function Page() {
               <div className="font-medium text-sm">Thermometer</div>
             </div>
             <label className="text-xs text-muted-foreground">Temperature (°F)</label>
-            <input type="number" step="0.1" value={healthData.temperature || ""} onChange={e => update("temperature", e.target.value)} placeholder="e.g. 98.6" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" step="0.1" value={healthData.temperature || ""} onChange={e => update("temperature", e.target.value)} disabled={!canSaveVitals} placeholder="e.g. 98.6" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
             <label className="text-xs text-muted-foreground mt-2 block">Weight (kg)</label>
-            <input type="number" step="0.1" value={healthData.weight || ""} onChange={e => update("weight", e.target.value)} placeholder="e.g. 65" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" step="0.1" value={healthData.weight || ""} onChange={e => update("weight", e.target.value)} disabled={!canSaveVitals} placeholder="e.g. 65" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
           </div>
 
           {/* Fitbit / Wearable */}
@@ -179,9 +198,9 @@ function Page() {
               <div className="font-medium text-sm">Fitbit / Wearable</div>
             </div>
             <label className="text-xs text-muted-foreground">Daily Steps</label>
-            <input type="number" value={healthData.fitbit_steps || ""} onChange={e => update("fitbit_steps", e.target.value)} placeholder="e.g. 8000" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" value={healthData.fitbit_steps || ""} onChange={e => update("fitbit_steps", e.target.value)} disabled={!canSaveActivity} placeholder="e.g. 8000" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
             <label className="text-xs text-muted-foreground mt-2 block">Sleep Hours</label>
-            <input type="number" step="0.1" value={healthData.fitbit_sleep || ""} onChange={e => update("fitbit_sleep", e.target.value)} placeholder="e.g. 7.5" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="number" step="0.1" value={healthData.fitbit_sleep || ""} onChange={e => update("fitbit_sleep", e.target.value)} disabled={!canSaveActivity} placeholder="e.g. 7.5" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
           </div>
 
           {/* Medical History */}
@@ -191,9 +210,9 @@ function Page() {
               <div className="font-medium text-sm">Medical History</div>
             </div>
             <label className="text-xs text-muted-foreground">Known Conditions</label>
-            <input type="text" value={healthData.conditions || ""} onChange={e => update("conditions", e.target.value)} placeholder="e.g. Diabetes Type 2, Hypertension" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="text" value={healthData.conditions || ""} onChange={e => update("conditions", e.target.value)} disabled={!canSaveHistory} placeholder="e.g. Diabetes Type 2, Hypertension" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
             <label className="text-xs text-muted-foreground mt-2 block">Current Medications</label>
-            <input type="text" value={healthData.medications || ""} onChange={e => update("medications", e.target.value)} placeholder="e.g. Metformin 500mg, Amlodipine" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30" />
+            <input type="text" value={healthData.medications || ""} onChange={e => update("medications", e.target.value)} disabled={!canSaveHistory} placeholder="e.g. Metformin 500mg, Amlodipine" className="w-full mt-1 px-3 py-2 rounded-lg border text-sm outline-none focus:ring-2 ring-sage/30 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed" />
           </div>
         </div>
 

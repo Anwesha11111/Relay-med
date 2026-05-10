@@ -42,10 +42,28 @@ function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementTyp
   );
 }
 
+const useLocalToggle = (key: string, defaultVal: boolean) => {
+  const [val, setVal] = useState(() => {
+    try { const v = localStorage.getItem(key); if (v !== null) return JSON.parse(v); } catch {}
+    return defaultVal;
+  });
+  const updateVal = (newVal: boolean) => {
+    setVal(newVal);
+    localStorage.setItem(key, JSON.stringify(newVal));
+  };
+  return [val, updateVal] as const;
+};
+
 function Page() {
   const { user, logout } = useAuth();
-  const [dataSharing, setDataSharing] = useState(true);
+  const [dataSharing, setDataSharing] = useLocalToggle("relaymed_data_sharing", true);
   const [showSyncModal, setShowSyncModal] = useState(false);
+
+  const [shareVitals, setShareVitals] = useLocalToggle("relaymed_share_vitals", true);
+  const [shareActivity, setShareActivity] = useLocalToggle("relaymed_share_activity", true);
+  const [shareMedicalHistory, setShareMedicalHistory] = useLocalToggle("relaymed_share_history", false);
+  const [shareDocs, setShareDocs] = useLocalToggle("relaymed_share_docs", false);
+  const [shareClinician, setShareClinician] = useLocalToggle("relaymed_share_clinician", false);
 
   const displayName = user?.name || "User";
   const initial = displayName.charAt(0).toUpperCase();
@@ -133,7 +151,6 @@ function Page() {
             desc="Master switch — when off, AI will not access any of your previously shared data for personalization. Your data is kept but not used."
             defaultOn={dataSharing}
             onChange={setDataSharing}
-            storageKey="relaymed_data_sharing"
           />
 
           {!dataSharing && (
@@ -143,22 +160,22 @@ function Page() {
             </div>
           )}
 
-          <Toggle label="Share vital signs (HR, BP, SpO2)" desc="Allow AI to analyze your heart rate, blood pressure, and oxygen levels." defaultOn />
-          <Toggle label="Share activity data (Steps, Sleep)" desc="Allow AI to factor in your physical activity and sleep patterns." defaultOn />
-          <Toggle label="Share medical history" desc="Include conditions, allergies, and past diagnoses in AI analysis." />
-          <Toggle label="Share medical certificates & documents" desc="Allow uploaded medical documents to be referenced by the AI." />
-          <Toggle label="Share with clinician" desc="Allow your verified clinician to view your reports and AI insights." />
+          <Toggle label="Share vital signs (HR, BP, SpO2)" desc="Allow AI to analyze your heart rate, blood pressure, and oxygen levels." defaultOn={shareVitals} onChange={setShareVitals} />
+          <Toggle label="Share activity data (Steps, Sleep)" desc="Allow AI to factor in your physical activity and sleep patterns." defaultOn={shareActivity} onChange={setShareActivity} />
+          <Toggle label="Share medical history" desc="Include conditions, allergies, and past diagnoses in AI analysis." defaultOn={shareMedicalHistory} onChange={setShareMedicalHistory} />
+          <Toggle label="Share medical certificates & documents" desc="Allow uploaded medical documents to be referenced by the AI." defaultOn={shareDocs} onChange={setShareDocs} />
+          <Toggle label="Share with clinician" desc="Allow your verified clinician to view your reports and AI insights." defaultOn={shareClinician} onChange={setShareClinician} />
         </div>
 
         {/* ── Data Permissions ────────────────────────── */}
         <SectionHeader icon={Database} title="Data Permissions Log" subtitle="See what you've shared and when" />
         <div className="rounded-2xl border bg-white p-4 space-y-3">
           {[
-            { type: "Vital Signs", status: "Shared", date: "Active since Jan 2026", shared: true },
-            { type: "Activity Data", status: "Shared", date: "Active since Feb 2026", shared: true },
-            { type: "Medical History", status: "Not shared", date: "Never shared", shared: false },
-            { type: "Medical Certificates", status: "Not shared", date: "Never shared", shared: false },
-            { type: "Clinician Access", status: "Not shared", date: "Never shared", shared: false },
+            { type: "Vital Signs", status: shareVitals ? "Shared" : "Not shared", date: shareVitals ? "Active since Jan 2026" : "Never shared", shared: shareVitals },
+            { type: "Activity Data", status: shareActivity ? "Shared" : "Not shared", date: shareActivity ? "Active since Feb 2026" : "Never shared", shared: shareActivity },
+            { type: "Medical History", status: shareMedicalHistory ? "Shared" : "Not shared", date: shareMedicalHistory ? "Active since Today" : "Never shared", shared: shareMedicalHistory },
+            { type: "Medical Certificates", status: shareDocs ? "Shared" : "Not shared", date: shareDocs ? "Active since Today" : "Never shared", shared: shareDocs },
+            { type: "Clinician Access", status: shareClinician ? "Shared" : "Not shared", date: shareClinician ? "Active since Today" : "Never shared", shared: shareClinician },
           ].map((item) => (
             <div key={item.type} className="flex items-center justify-between py-1">
               <div className="flex items-center gap-3">
