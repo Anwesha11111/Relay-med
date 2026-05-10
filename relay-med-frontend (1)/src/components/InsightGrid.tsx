@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Area, AreaChart, ResponsiveContainer, Line, LineChart } from "recharts";
 import { CalendarDays, ChevronDown, Moon, Activity, Droplet, HeartPulse, Watch, PenLine, Bed, Sparkles, Info, ArrowUpRight } from "lucide-react";
 
@@ -49,7 +50,7 @@ export function InsightGrid() {
             </div>
           ))}
         </div>
-        <button className="mt-5 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage">View Full Forecast</button>
+        <Link to="/simulator" className="mt-5 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage block text-center">View Full Forecast</Link>
       </div>
 
       {/* What-If Simulator */}
@@ -95,7 +96,7 @@ export function InsightGrid() {
             );
           })}
         </div>
-        <button className="mt-4 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage">View All Insights</button>
+        <Link to="/insights" className="mt-4 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage block text-center">View All Insights</Link>
       </div>
 
       {/* Data Reliability */}
@@ -120,7 +121,7 @@ export function InsightGrid() {
             );
           })}
         </div>
-        <button className="mt-4 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage">View Trust Details</button>
+        <Link to="/trust" className="mt-4 w-full neu-btn rounded-xl py-2 text-xs font-medium text-sage block text-center">View Trust Details</Link>
       </div>
     </section>
   );

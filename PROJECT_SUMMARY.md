@@ -249,7 +249,7 @@ The API will be available at `http://localhost:8000`
 
 ### Step 5: Set Up the Frontend
 ```bash
-cd "relay-med-frontend (1)"
+cd frontend
 npm install
 ```
 

@@ -81,11 +81,11 @@ export function MetricsRow() {
         </div>
         <div className="mt-3 flex items-center gap-2">
           {[Footprints, Moon, Droplet, Flame].map((I, i) => (
-            <div key={i} className="w-9 h-9 rounded-xl bg-mint/70 grid place-items-center text-sage hover:scale-110 transition-transform">
+            <div key={i} onClick={() => alert("Goal tracking is coming in the next update!")} className="w-9 h-9 rounded-xl bg-mint/70 grid place-items-center text-sage hover:scale-110 transition-transform cursor-pointer">
               <I className="w-4 h-4" />
             </div>
           ))}
-          <div className="w-9 h-9 rounded-xl bg-mint/40 grid place-items-center text-[10px] text-sage font-semibold">+1</div>
+          <div onClick={() => alert("Goal tracking is coming in the next update!")} className="w-9 h-9 rounded-xl bg-mint/40 grid place-items-center text-[10px] text-sage font-semibold cursor-pointer">+1</div>
         </div>
       </div>
     </section>

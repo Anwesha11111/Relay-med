@@ -585,8 +585,9 @@ class LLMAdapter:
                     import json
                     data = resp.json()
                     yield data.get("response", "")
-        except Exception:
-            yield _pick_fallback(prompt)
+        except Exception as e:
+            fallback = _pick_fallback(prompt)
+            yield fallback + f"\n\n*(Note: This is a pre-written offline response because the local AI model (Ollama) is not running or unreachable at {url}.)*"
 
     # ── Gemini ─────────────────────────────────────────────────────────────────
 
@@ -606,9 +607,11 @@ class LLMAdapter:
                 response = await asyncio.to_thread(model.generate_content, prompt)
                 yield response.text or ""
         except ImportError:
-            yield _pick_fallback(prompt)
-        except Exception:
-            yield _pick_fallback(prompt)
+            fallback = _pick_fallback(prompt)
+            yield fallback + "\n\n*(Note: This is a pre-written offline response because the Google Generative AI SDK is not installed.)*"
+        except Exception as e:
+            fallback = _pick_fallback(prompt)
+            yield fallback + "\n\n*(Note: This is a pre-written offline response because the connection to the Gemini API failed.)*"
 
 
 # Default adapter instance

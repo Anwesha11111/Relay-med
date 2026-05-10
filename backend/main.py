@@ -54,13 +54,21 @@ app.include_router(bias.router, prefix=settings.API_V1_STR)
 # ── Static Frontend (only if frontend dir exists — not used in Render deploy) ─
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
 if FRONTEND_DIR.exists():
-    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR / "assets")), name="assets")
-    app.mount("/css", StaticFiles(directory=str(FRONTEND_DIR / "css")), name="css")
-    app.mount("/js", StaticFiles(directory=str(FRONTEND_DIR / "js")), name="js")
+    if (FRONTEND_DIR / "assets").exists():
+        app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR / "assets")), name="assets")
+    if (FRONTEND_DIR / "css").exists():
+        app.mount("/css", StaticFiles(directory=str(FRONTEND_DIR / "css")), name="css")
+    if (FRONTEND_DIR / "js").exists():
+        app.mount("/js", StaticFiles(directory=str(FRONTEND_DIR / "js")), name="js")
 
-    @app.get("/", include_in_schema=False)
-    async def serve_frontend():
-        return FileResponse(str(FRONTEND_DIR / "index.html"))
+    if (FRONTEND_DIR / "index.html").exists():
+        @app.get("/", include_in_schema=False)
+        async def serve_frontend():
+            return FileResponse(str(FRONTEND_DIR / "index.html"))
+    else:
+        @app.get("/", include_in_schema=False)
+        async def api_root():
+            return {"message": "Relay-med API is running. Frontend not built yet.", "docs": "/api/docs"}
 
 # ── Startup ───────────────────────────────────────────────────────────────────
 @app.on_event("startup")
