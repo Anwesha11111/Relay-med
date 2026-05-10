@@ -1,4 +1,4 @@
-# Synthea Configuration — SecureMed AI Health Companion
+# Synthea Configuration — RelayMed AI Health Companion
 # Used with: java -jar synthea.jar -c synthea_config.yaml
 
 # Population settings

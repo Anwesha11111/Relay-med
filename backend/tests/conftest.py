@@ -1,5 +1,5 @@
 """
-conftest.py — Shared pytest fixtures for SecureMed AI Health Companion.
+conftest.py — Shared pytest fixtures for RelayMed AI Health Companion.
 
 Available fixtures
 ------------------

@@ -1,6 +1,6 @@
-# Complex Additional Features for SecureMed AI
+# Complex Additional Features for RelayMed AI
 
-This document outlines advanced features to enhance the SecureMed AI Health Companion, focusing on privacy, clinical intelligence, and medical-grade security.
+This document outlines advanced features to enhance the RelayMed AI Health Companion, focusing on privacy, clinical intelligence, and medical-grade security.
 
 ## 1. Privacy & Security (Zero-Trust Architecture)
 *   **Federated Learning Integration**: Allow the AI to learn from local hospital data without the raw data ever leaving the hospital's premises. Updates are aggregated centrally using Secure Multi-Party Computation (SMPC).

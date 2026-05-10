@@ -1,4 +1,4 @@
-# Relay-med (SecureMed AI Health Companion)
+# Relay-med (RelayMed AI Health Companion)
 
 > Trust-aware, full-stack AI health application with causal inference, differential privacy, and hospital-grade security.
 
@@ -112,7 +112,7 @@ pytest backend/tests/ -v
 ## Security
 
 - **Encryption**: AES-256-GCM via Python `cryptography` library
-- **Key derivation**: PBKDF2-HMAC-SHA256 from `SECUREMED_MASTER_KEY`
+- **Key derivation**: PBKDF2-HMAC-SHA256 from `RELAYMED_MASTER_KEY`
 - **Differential privacy**: Laplace mechanism on exported statistics
 - **Anti-Hacking Noise Protocol**: Calibrated medical-grade noise injection at ingestion to protect raw data from AI model reconstruction
 - **Audit log**: Append-only JSONL, auto-archives at 1 GB

@@ -23,7 +23,7 @@ Auth modes
 Set AUTH_MODE in .env:
   "header"  (default) — trusts X-User-ID request header; falls back to "default".
   "jwt"               — expects Authorization: Bearer <HS256 JWT>.
-                        Requires SECUREMED_JWT_SECRET in .env.
+                        Requires RELAYMED_JWT_SECRET in .env.
                         Install: pip install python-jose[cryptography]
 """
 
@@ -58,7 +58,7 @@ def _extract_user_jwt(
 ) -> str:
     """
     JWT-mode auth.
-    Reads Authorization: Bearer <token>, decodes with SECUREMED_JWT_SECRET (HS256),
+    Reads Authorization: Bearer <token>, decodes with RELAYMED_JWT_SECRET (HS256),
     and returns the 'sub' claim as the user_id.
     """
     try:
@@ -77,12 +77,12 @@ def _extract_user_jwt(
         )
 
     token = authorization.removeprefix("Bearer ").strip()
-    secret = getattr(settings, "SECUREMED_JWT_SECRET", "")
+    secret = getattr(settings, "RELAYMED_JWT_SECRET", "")
 
     if not secret:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="SECUREMED_JWT_SECRET is not configured on the server.",
+            detail="RELAYMED_JWT_SECRET is not configured on the server.",
         )
 
     try:

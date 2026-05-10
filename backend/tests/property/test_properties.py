@@ -1,5 +1,5 @@
 """
-Property-based tests — SecureMed AI Health Companion.
+Property-based tests — RelayMed AI Health Companion.
 
 Uses Hypothesis to verify invariants that must hold for *all* inputs,
 not just the examples we thought of.

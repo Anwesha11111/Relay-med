@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3:latest"
     
     # Security
-    SECUREMED_MASTER_KEY: str = "dev_master_key_32_bytes_long_minimum"
+    RELAYMED_MASTER_KEY: str = "dev_master_key_32_bytes_long_minimum"
     
     # Data Trust
     STALENESS_THRESHOLD_DAYS: int = 7
