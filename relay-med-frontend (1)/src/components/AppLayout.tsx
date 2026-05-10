@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Sidebar } from "./Sidebar";
 import { Bell, Monitor, ChevronDown, X, Check, RefreshCw } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,7 +33,7 @@ function SyncModal({ onClose }: { onClose: () => void }) {
             </div>
           ))}
         </div>
-        <button className="w-full mt-4 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl gradient-sage text-white text-sm font-medium hover:opacity-90 transition-opacity">
+        <button onClick={() => { alert("All devices successfully synced!"); onClose(); }} className="w-full mt-4 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl gradient-sage text-white text-sm font-medium hover:opacity-90 transition-opacity">
           <RefreshCw className="w-4 h-4" /> Sync All Now
         </button>
         <p className="text-[10px] text-muted-foreground text-center mt-3">
@@ -148,12 +149,12 @@ export function AppLayout({
                 </span>
               )}
             </button>
-            <div className="neu-btn flex items-center gap-2 pl-1 pr-3 py-1 rounded-2xl">
+            <Link to="/settings" className="neu-btn flex items-center gap-2 pl-1 pr-3 py-1 rounded-2xl">
               <div className="w-8 h-8 rounded-full gradient-sage grid place-items-center text-white text-xs font-semibold">
                 {initial}
               </div>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
-            </div>
+            </Link>
           </div>
         </header>
         {children}
