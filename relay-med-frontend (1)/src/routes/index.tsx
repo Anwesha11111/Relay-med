@@ -26,10 +26,10 @@ function Dashboard() {
           <MetricsRow />
           <HealthJourney />
           <InsightGrid />
+          <SecurityFooter />
         </div>
         <RelayGuidePanel />
       </div>
-      <SecurityFooter />
     </AppLayout>
   );
 }

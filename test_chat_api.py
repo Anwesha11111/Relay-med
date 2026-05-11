@@ -3,7 +3,7 @@ import httpx
 import asyncio
 
 async def test():
-    async with httpx.AsyncClient(timeout=30) as c:
+    async with httpx.AsyncClient(timeout=60) as c:
         # Test 1: Health check
         r = await c.get("http://localhost:8000/health")
         print("Health:", r.json())

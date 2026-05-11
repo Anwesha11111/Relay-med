@@ -20,6 +20,7 @@ class ChatRequest(BaseModel):
     message: str
     include_health_context: bool = True
     stream: bool = True
+    dietary_preference: Optional[str] = None
 
 
 class NewSessionResponse(BaseModel):
@@ -43,19 +44,22 @@ async def chat(payload: ChatRequest):
 
     if payload.stream:
         async def event_stream():
-            yield f"data: {{'session_id': '{session_id}'}}\n\n"
+            yield f'data: {{"session_id": "{session_id}"}}\n\n'
             async for chunk in conversation_service.chat(
-                session_id, payload.message, reports=reports, stream=True
+                session_id, payload.message, reports=reports, stream=True, 
+                dietary_preference=payload.dietary_preference
             ):
-                safe = chunk.replace("\n", "\\n").replace('"', '\\"')
-                yield f'data: {{"chunk": "{safe}"}}\n\n'
+                import json
+                safe = json.dumps(chunk)
+                yield f'data: {{"chunk": {safe}}}\n\n'
             yield "data: [DONE]\n\n"
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")
     else:
         full = ""
         async for chunk in conversation_service.chat(
-            session_id, payload.message, reports=reports, stream=False
+            session_id, payload.message, reports=reports, stream=False,
+            dietary_preference=payload.dietary_preference
         ):
             full += chunk
         return {"session_id": session_id, "response": full}
@@ -65,8 +69,9 @@ async def chat(payload: ChatRequest):
 async def health_summary():
     async def stream():
         async for chunk in conversation_service.get_health_summary(stream=True):
-            safe = chunk.replace("\n", "\\n").replace('"', '\\"')
-            yield f'data: {{"chunk": "{safe}"}}\n\n'
+            import json
+            safe = json.dumps(chunk)
+            yield f'data: {{"chunk": {safe}}}\n\n'
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(stream(), media_type="text/event-stream")

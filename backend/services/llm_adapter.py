@@ -8,7 +8,7 @@ so the app always works — even without any external API.
 
 import asyncio
 import re
-from typing import AsyncIterator, Literal
+from typing import AsyncIterator, Literal, List, Dict
 import httpx
 from backend.config import settings
 
@@ -474,7 +474,7 @@ def _extract_user_message(prompt: str) -> str:
 
 def _extract_health_data(prompt: str) -> str:
     """Extract user health data from prompt if present."""
-    match = re.search(r"\[My Health Data:\s*(.+?)\]", prompt)
+    match = re.search(r"\[(?:My Health Data|REAL-TIME PATIENT DATA):\s*(.+?)\]", prompt, re.IGNORECASE | re.DOTALL)
     return match.group(1) if match else ""
 
 
@@ -548,66 +548,103 @@ def _pick_fallback(prompt: str) -> str:
 class LLMAdapter:
     def __init__(self, provider: str | None = None):
         self.provider = provider or settings.effective_provider
+        self._client: Optional[httpx.AsyncClient] = None
 
-    async def complete(self, prompt: str, stream: bool = False) -> AsyncIterator[str]:
+    async def _get_client(self) -> httpx.AsyncClient:
+        if self._client is None or self._client.is_closed:
+            self._client = httpx.AsyncClient(timeout=300, limits=httpx.Limits(max_keepalive_connections=5, max_connections=10))
+        return self._client
+
+    async def complete(self, messages: List[Dict[str, str]], stream: bool = False) -> AsyncIterator[str]:
         # Re-check effective provider each call (in case env changed)
         provider = settings.effective_provider if not self.provider or self.provider == "gemini" else self.provider
 
         if provider == "ollama":
-            async for chunk in self._ollama_complete(prompt, stream):
+            async for chunk in self._ollama_complete(messages, stream):
                 yield chunk
         elif provider == "gemini" and settings.GEMINI_API_KEY:
-            async for chunk in self._gemini_complete(prompt, stream):
+            async for chunk in self._gemini_complete(messages, stream):
                 yield chunk
         else:
-            # Built-in fallback — no external API needed
+            # Built-in fallback — convert messages to string for legacy picker
+            prompt = "\n".join([f"[{m['role'].upper()}]\n{m['content']}" for m in messages])
             yield _pick_fallback(prompt)
 
     # ── Ollama ─────────────────────────────────────────────────────────────────
 
-    async def _ollama_complete(self, prompt: str, stream: bool) -> AsyncIterator[str]:
-        url = f"{settings.OLLAMA_BASE_URL}/api/generate"
-        payload = {"model": settings.OLLAMA_MODEL, "prompt": prompt, "stream": stream}
+    async def _ollama_complete(self, messages: List[Dict[str, str]], stream: bool) -> AsyncIterator[str]:
+        url = f"{settings.OLLAMA_BASE_URL}/api/chat"
+        payload = {"model": settings.OLLAMA_MODEL, "messages": messages, "stream": stream}
+        
+        client = await self._get_client()
         try:
-            async with httpx.AsyncClient(timeout=120) as client:
-                if stream:
-                    async with client.stream("POST", url, json=payload) as resp:
-                        import json
-                        async for line in resp.aiter_lines():
-                            if line:
-                                try:
-                                    data = json.loads(line)
-                                    yield data.get("response", "")
-                                except Exception:
-                                    continue
-                else:
-                    resp = await client.post(url, json=payload)
+            if stream:
+                async with client.stream("POST", url, json=payload) as resp:
+                    if resp.status_code != 200:
+                        raise Exception(f"Ollama error: {resp.status_code}")
+                    
                     import json
-                    data = resp.json()
-                    yield data.get("response", "")
-        except Exception:
+                    async for line in resp.aiter_lines():
+                        if line:
+                            try:
+                                data = json.loads(line)
+                                chunk = data.get("message", {}).get("content", "")
+                                if chunk:
+                                    yield chunk
+                                if data.get("done"):
+                                    break
+                            except Exception:
+                                continue
+            else:
+                resp = await client.post(url, json=payload)
+                if resp.status_code != 200:
+                    raise Exception(f"Ollama error: {resp.status_code}")
+                data = resp.json()
+                yield data.get("message", {}).get("content", "")
+        except Exception as e:
+            print(f"[LLMAdapter] Ollama Error: {e}")
+            prompt = "\n".join([f"[{m['role'].upper()}]\n{m['content']}" for m in messages])
             yield _pick_fallback(prompt)
 
     # ── Gemini ─────────────────────────────────────────────────────────────────
 
-    async def _gemini_complete(self, prompt: str, stream: bool) -> AsyncIterator[str]:
+    async def _gemini_complete(self, messages: List[Dict[str, str]], stream: bool) -> AsyncIterator[str]:
         try:
             import google.generativeai as genai
             genai.configure(api_key=settings.GEMINI_API_KEY)
-            model = genai.GenerativeModel("gemini-2.0-flash")
+            
+            # Extract system instruction
+            system_instruction = None
+            history = []
+            for m in messages:
+                if m["role"] == "system":
+                    system_instruction = m["content"]
+                else:
+                    history.append({"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]})
+
+            last_message = history.pop()["parts"][0] if history and history[-1]["role"] == "user" else ""
+            
+            model = genai.GenerativeModel(
+                model_name="gemini-2.0-flash",
+                system_instruction=system_instruction
+            )
 
             if stream:
+                chat = model.start_chat(history=history)
                 response = await asyncio.to_thread(
-                    model.generate_content, prompt, stream=True
+                    chat.send_message, last_message, stream=True
                 )
                 for chunk in response:
                     yield chunk.text or ""
             else:
-                response = await asyncio.to_thread(model.generate_content, prompt)
+                chat = model.start_chat(history=history)
+                response = await asyncio.to_thread(chat.send_message, last_message)
                 yield response.text or ""
         except ImportError:
+            prompt = "\n".join([f"[{m['role'].upper()}]\n{m['content']}" for m in messages])
             yield _pick_fallback(prompt)
         except Exception:
+            prompt = "\n".join([f"[{m['role'].upper()}]\n{m['content']}" for m in messages])
             yield _pick_fallback(prompt)
 
 

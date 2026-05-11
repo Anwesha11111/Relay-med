@@ -36,7 +36,7 @@ class EncryptionService:
     _ITERATIONS = 200_000
 
     def __init__(self):
-        self._key = self._derive_key(settings.SECUREMED_MASTER_KEY.encode())
+        self._key = self._derive_key(settings.RELAYMED_MASTER_KEY.encode())
         self._aesgcm = AESGCM(self._key)
 
     def _derive_key(self, master_key: bytes) -> bytes:

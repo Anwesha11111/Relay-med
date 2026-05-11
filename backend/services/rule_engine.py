@@ -47,9 +47,10 @@ class RuleEngine:
 
         all_values = []
         contributing_vitals = []
-
+        all_records = []
         for vt in vital_types:
             records = health_graph.get_recent_values(vt, days=days)
+            all_records.extend(records)
             all_values.extend([r["value"] for r in records])
             contributing_vitals.extend([VitalRef(vital_id=r["id"], vital_type=vt) for r in records])
 
@@ -63,9 +64,10 @@ class RuleEngine:
         if not triggered:
             return None
 
+        # Optimized: use already fetched records for trust calculation
         avg_trust = statistics.mean(
-            [r.get("trust_score", 0.5) for vt in vital_types for r in health_graph.get_recent_values(vt, days=days)]
-        ) if all_values else 0.5
+            [r.get("trust_score", 0.5) for r in all_records]
+        ) if all_records else 0.5
 
         finding = RiskFinding(
             id=str(uuid.uuid4()),

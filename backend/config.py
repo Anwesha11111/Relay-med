@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3:latest"
     
     # Security
-    SECUREMED_MASTER_KEY: str = "dev_master_key_32_bytes_long_minimum"
+    RELAYMED_MASTER_KEY: str = "dev_master_key_32_bytes_long_minimum"
     
     # Data Trust
     STALENESS_THRESHOLD_DAYS: int = 7
@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./securemed.db"
 
     # CORS — allowed frontend origins
-    CORS_ORIGINS: str = "*"
+    CORS_ORIGINS: str = "http://localhost:8080,http://127.0.0.1:8080"
 
     @property
     def effective_provider(self) -> str:

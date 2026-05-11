@@ -43,6 +43,7 @@ class HealthGraphEdge:
 class HealthGraph:
     def __init__(self):
         self._graph = nx.DiGraph()
+        self._vital_index: Dict[str, List[str]] = {}
         self._lock = threading.Lock()
         DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
         self._load()
@@ -71,6 +72,11 @@ class HealthGraph:
                 trust_score=node.trust_score,
                 tags=node.tags,
             )
+            # Update index
+            if node.vital_type not in self._vital_index:
+                self._vital_index[node.vital_type] = []
+            self._vital_index[node.vital_type].append(node.id)
+            
             self._add_temporal_edges(node)
             self._add_correlation_edges(node)
             self._save()
@@ -79,9 +85,10 @@ class HealthGraph:
         cutoff = datetime.now(timezone.utc) - timedelta(days=days)
         results = []
         with self._lock:
-            for nid, data in self._graph.nodes(data=True):
-                if data.get("vital_type") != vital_type:
-                    continue
+            # Optimized: use index to avoid scanning all nodes
+            node_ids = self._vital_index.get(vital_type, [])
+            for nid in node_ids:
+                data = self._graph.nodes[nid]
                 ts = datetime.fromisoformat(data["timestamp"])
                 if ts.tzinfo is None:
                     ts = ts.replace(tzinfo=timezone.utc)
@@ -157,8 +164,17 @@ class HealthGraph:
             try:
                 data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
                 self._graph = nx.node_link_graph(data)
+                # Rebuild index
+                self._vital_index = {}
+                for nid, data in self._graph.nodes(data=True):
+                    vt = data.get("vital_type")
+                    if vt:
+                        if vt not in self._vital_index:
+                            self._vital_index[vt] = []
+                        self._vital_index[vt].append(nid)
             except Exception:
                 self._graph = nx.DiGraph()
+                self._vital_index = {}
 
 
 health_graph = HealthGraph()

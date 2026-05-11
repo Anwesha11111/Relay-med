@@ -49,6 +49,7 @@ export function RelayGuidePanel() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [personalized, setPersonalized] = useState(isDataSharingOn());
+  const [dietaryPref, setDietaryPref] = useState<string>("Veg"); // Default to Veg
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" }); }, [messages]);
@@ -56,25 +57,86 @@ export function RelayGuidePanel() {
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || loading) return;
-    setMessages(p => [...p, { role: "user", content: text.trim() }]);
-    setInput(""); setLoading(true);
+    
+    const userMsg = text.trim();
+    setMessages(p => [...p, { role: "user", content: userMsg }]);
+    setInput(""); 
+    setLoading(true);
+    
     const hCtx = buildHealthContext();
-    const enriched = hCtx ? text.trim() + hCtx : text.trim();
+    const enriched = hCtx ? userMsg + hCtx : userMsg;
+
     try {
-      const res = await fetch(`${API_BASE}/api/v1/conversation/chat`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId, message: enriched, include_health_context: true, stream: false }),
+      const response = await fetch(`${API_BASE}/api/v1/conversation/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          session_id: sessionId, 
+          message: enriched, 
+          include_health_context: true, 
+          stream: true,
+          dietary_preference: dietaryPref 
+        }),
       });
-      if (!res.ok) throw new Error(`API error: ${res.status}`);
-      const data = await res.json();
-      if (data.session_id && !sessionId) setSessionId(data.session_id);
-      let resp = data.response || "I'm having trouble right now. Please try again.";
-      if (hCtx && !resp.includes("Based on your health data")) resp = "*(Personalized based on your health data)*\n\n" + resp;
-      setMessages(p => [...p, { role: "assistant", content: resp, hasDisclaimer: resp.includes("consult your doctor") }]);
-    } catch {
-      setMessages(p => [...p, { role: "assistant", content: "I'm currently in demo mode (backend connecting...). In production, I analyze your health data and provide personalized insights, including medicine suggestions with appropriate disclaimers.\n\nThis is AI-generated guidance. AI can make mistakes. Please consult a qualified healthcare provider before making any medical decisions." }]);
-    } finally { setLoading(false); }
-  }, [loading, sessionId]);
+
+      if (!response.ok) throw new Error(`API error: ${response.status}`);
+      if (!response.body) throw new Error("No response body");
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let assistantResponse = "";
+      
+      // Initialize assistant message
+      setMessages(p => [...p, { role: "assistant", content: "", hasDisclaimer: false }]);
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const dataStr = line.slice(6).trim();
+            if (dataStr === "[DONE]") continue;
+            
+            try {
+              const data = JSON.parse(dataStr);
+              
+              if (data.session_id && !sessionId) {
+                setSessionId(data.session_id);
+              }
+              
+              if (data.chunk) {
+                assistantResponse += data.chunk;
+                setMessages(p => {
+                  const newMsgs = [...p];
+                  const last = newMsgs[newMsgs.length - 1];
+                  if (last && last.role === "assistant") {
+                    last.content = assistantResponse;
+                    last.hasDisclaimer = assistantResponse.includes("consult your doctor");
+                  }
+                  return newMsgs;
+                });
+              }
+            } catch (e) {
+              console.error("Error parsing stream chunk:", e, dataStr);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Chat error:", error);
+      setMessages(p => [...p, { 
+        role: "assistant", 
+        content: "I'm having trouble connecting to my health intelligence core. Please check if the backend is running.\n\n*Technical Detail: " + (error instanceof Error ? error.message : "Unknown error") + "*",
+        hasDisclaimer: false
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  }, [loading, sessionId, buildHealthContext]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } };
 
@@ -85,8 +147,8 @@ export function RelayGuidePanel() {
     while ((m = re.exec(text)) !== null) {
       if (m.index > last) parts.push(<span key={`${key}-${idx++}`}>{text.slice(last, m.index)}</span>);
       const s = m[0];
-      if (s.startsWith("**") && s.endsWith("**")) parts.push(<strong key={`${key}-${idx++}`}>{s.slice(2, -2)}</strong>);
-      else if (s.startsWith("*") && s.endsWith("*")) parts.push(<em key={`${key}-${idx++}`} className="text-muted-foreground">{s.slice(1, -1)}</em>);
+      if (s.startsWith("**") && s.endsWith("**")) parts.push(<strong key={`${key}-${idx++}`} className="text-ocean dark:text-cyan-400">{s.slice(2, -2)}</strong>);
+      else if (s.startsWith("*") && s.endsWith("*")) parts.push(<em key={`${key}-${idx++}`} className="text-muted-foreground italic">{s.slice(1, -1)}</em>);
       else if (s === "--") parts.push(<span key={`${key}-${idx++}`}> — </span>);
       last = m.index + s.length;
     }
@@ -96,43 +158,64 @@ export function RelayGuidePanel() {
 
   const renderContent = (text: string) => text.split("\n").map((line, i) => {
     const k = `l${i}`;
-    if (line.startsWith("---")) return <hr key={k} className="my-2 border-t border-gray-200" />;
-    if (line === "") return <br key={k} />;
-    if (/^\d+\.\s/.test(line)) return <span key={k} className="block ml-3 text-sm">{renderInline(line, k)}</span>;
-    if (line.startsWith("- ")) return <span key={k} className="block ml-3 text-sm">{renderInline(line, k)}</span>;
-    return <span key={k} className="block text-sm">{renderInline(line, k)}</span>;
+    if (line.startsWith("---")) return <hr key={k} className="my-3 border-t border-gray-200 dark:border-gray-800" />;
+    if (line === "") return <div key={k} className="h-2" />;
+    if (/^\d+\.\s/.test(line)) return <span key={k} className="block ml-3 text-sm mb-1">{renderInline(line, k)}</span>;
+    if (line.startsWith("- ")) return <span key={k} className="block ml-3 text-sm mb-1">{renderInline(line, k)}</span>;
+    return <span key={k} className="block text-sm leading-relaxed mb-1">{renderInline(line, k)}</span>;
   });
 
   return (
-    <aside className="soft-card p-5 sticky top-6 fade-in flex flex-col" style={{ maxHeight: "calc(100vh - 3rem)" }}>
+    <aside className="glass-card p-6 sticky top-6 fade-in flex flex-col border-white/20 shadow-2xl backdrop-blur-xl" style={{ maxHeight: "calc(100vh - 3rem)", background: "rgba(255, 255, 255, 0.7)" }}>
       <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative w-11 h-11 rounded-2xl gradient-sage grid place-items-center text-white animate-pulse-ring"><Bot className="w-5 h-5" /></div>
+        <div className="flex items-center gap-4">
+          <div className="relative w-12 h-12 rounded-2xl gradient-ocean grid place-items-center text-white shadow-lg animate-pulse-ring">
+            <Bot className="w-6 h-6" />
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-sm" />
+          </div>
           <div>
-            <div className="font-display text-base font-semibold leading-tight">Relay Guide</div>
-            <div className="text-[11px] text-muted-foreground">AI Health Companion</div>
-            <div className="text-[10px] text-sage flex items-center gap-1 mt-0.5"><span className="w-1.5 h-1.5 rounded-full bg-[var(--success)]" /> Online</div>
+            <div className="font-display text-lg font-bold tracking-tight text-ocean leading-tight">Relay Guide</div>
+            <div className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-1.5 mt-0.5">
+              Smart Health Intelligence
+            </div>
           </div>
         </div>
-        <MoreVertical className="w-4 h-4 text-muted-foreground" />
+        <button className="p-2 hover:bg-black/5 rounded-xl transition-colors"><MoreVertical className="w-5 h-5 text-muted-foreground" /></button>
       </div>
 
-      <div className="mt-3 flex items-center gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2">
-        <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-        <span className="text-[10px] text-amber-700 dark:text-amber-300 leading-tight">AI can suggest medicines but may make mistakes. Always consult your doctor before taking any medication.</span>
+      <div className="mt-4 flex items-center gap-3 bg-amber-50/80 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/50 rounded-2xl px-4 py-3 shadow-sm backdrop-blur-sm">
+        <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0" />
+        <span className="text-[11px] text-amber-800 dark:text-amber-200 leading-snug font-medium">
+          Smart guidance mode. Always consult your healthcare provider for clinical decisions.
+        </span>
       </div>
 
-      <div className={`mt-2 flex items-center gap-2 rounded-xl px-3 py-1.5 text-[10px] ${personalized ? "bg-emerald-50 border border-emerald-200 text-emerald-700" : "bg-red-50 border border-red-200 text-red-600"}`}>
-        {personalized ? <><UserCheck className="w-3.5 h-3.5 shrink-0" /> Personalized — using your health data for tailored responses</> : <><UserX className="w-3.5 h-3.5 shrink-0" /> Generic mode — enable data sharing in Settings for personalized responses</>}
+      <div className={`mt-3 flex items-center gap-2.5 rounded-2xl px-4 py-2 text-[11px] font-medium transition-all duration-500 ${personalized ? "bg-emerald-50/80 border border-emerald-100 text-emerald-700 shadow-sm" : "bg-rose-50/80 border border-rose-100 text-rose-600"}`}>
+        {personalized ? <><UserCheck className="w-4 h-4 shrink-0 animate-bounce-subtle" /> Intelligence Core: Active & Personalized</> : <><UserX className="w-4 h-4 shrink-0" /> intelligence Core: Generic (Sharing Disabled)</>}
       </div>
 
-      <div ref={scrollRef} className="mt-4 space-y-3 overflow-y-auto pr-1 flex-1" style={{ minHeight: "200px" }}>
+      {/* Dietary preferences removed as per user request */}
+
+      <div ref={scrollRef} className="mt-5 space-y-4 overflow-y-auto pr-2 flex-1 scrollbar-hide" style={{ minHeight: "240px" }}>
         {messages.map((msg, i) => (
-          <div key={i} className={msg.role === "user" ? "rounded-2xl rounded-tr-md ml-auto px-3.5 py-2.5 text-sm max-w-[90%]" : "rounded-2xl rounded-tl-md px-3.5 py-2.5 text-sm leading-relaxed bg-mint/40"} style={msg.role === "user" ? { background: "color-mix(in oklab, var(--ocean) 14%, white)" } : undefined}>
-            {renderContent(msg.content)}
+          <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div className={`rounded-3xl px-4 py-3 text-sm max-w-[92%] shadow-sm ${msg.role === "user" ? "rounded-tr-lg bg-gradient-to-br from-ocean to-blue-600 text-white" : "rounded-tl-lg bg-white/80 border border-white/40 backdrop-blur-sm text-slate-700 leading-relaxed"}`}>
+              {renderContent(msg.content)}
+            </div>
           </div>
         ))}
-        {loading && <div className="rounded-2xl rounded-tl-md bg-mint/40 px-3.5 py-2.5 text-sm flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin text-sage" /><span className="text-muted-foreground text-xs">Relay Guide is thinking...</span></div>}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="rounded-3xl rounded-tl-lg bg-white/60 border border-white/40 px-4 py-3 flex items-center gap-3 shadow-sm">
+              <div className="flex gap-1">
+                <span className="w-1.5 h-1.5 bg-ocean rounded-full animate-bounce [animation-delay:-0.3s]" />
+                <span className="w-1.5 h-1.5 bg-ocean rounded-full animate-bounce [animation-delay:-0.15s]" />
+                <span className="w-1.5 h-1.5 bg-ocean rounded-full animate-bounce" />
+              </div>
+              <span className="text-slate-500 text-xs font-medium italic">Relay Guide is analyzing...</span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="space-y-1.5 pt-2 border-t mt-2">
