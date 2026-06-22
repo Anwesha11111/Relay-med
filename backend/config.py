@@ -19,9 +19,9 @@ class Settings(BaseSettings):
     
     # Data Trust
     STALENESS_THRESHOLD_DAYS: int = 7
-    TRUST_WEIGHT_SOURCE: float = 0.5
-    TRUST_WEIGHT_COMPLETENESS: float = 0.3
-    TRUST_WEIGHT_RECENCY: float = 0.2
+    TRUST_WEIGHT_SOURCE: float = 0.4
+    TRUST_WEIGHT_COMPLETENESS: float = 0.2
+    TRUST_WEIGHT_RECENCY: float = 0.4
     
     # Emergency Triage Thresholds
     SPO2_RED_FLAG_THRESHOLD: float = 90.0
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
         return self.LLM_PROVIDER
 
     class Config:
-        env_file = ".env"
+        env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
         env_file_encoding = "utf-8"
         case_sensitive = True
 

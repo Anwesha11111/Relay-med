@@ -19,5 +19,19 @@
     "consented": false,
     "timestamp": "2026-04-27T05:51:42.347674",
     "version": "1.0"
+  },
+  "test_user_integration:manual_input": {
+    "user_id": "test_user_integration",
+    "stream_id": "manual_input",
+    "consented": true,
+    "timestamp": "2026-06-22T18:15:09.165297",
+    "version": "1.0"
+  },
+  "test_user_integration:ehr_import": {
+    "user_id": "test_user_integration",
+    "stream_id": "ehr_import",
+    "consented": false,
+    "timestamp": "2026-06-22T18:15:08.750522",
+    "version": "1.0"
   }
 }
