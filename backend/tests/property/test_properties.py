@@ -43,6 +43,7 @@ from backend.services.ingestion_service import IngestionService, _DUPLICATE_CACH
 from backend.services.differential_privacy import DifferentialPrivacyEngine
 from backend.services.emergency_triage import EmergencyTriageService
 from backend.services.health_graph import HealthGraph
+import backend.services.health_graph as health_graph_module
 
 
 # ── Strategies ─────────────────────────────────────────────────────────────────
@@ -211,7 +212,7 @@ class TestDifferentialPrivacyProperties:
         priv_mean = engine.privatise_mean(values, sensitivity=1.0)
         assert abs(priv_mean - true_mean) < 5.0
 
-    @given(epsilon=st.floats(min_value=0.001, max_value=0.0, allow_nan=False))
+    @given(epsilon=st.floats(min_value=-1000.0, max_value=0.0, allow_nan=False, allow_infinity=False))
     def test_non_positive_epsilon_raises(self, epsilon: float):
         """DifferentialPrivacyEngine must reject ε ≤ 0."""
         assume(epsilon <= 0)
@@ -279,13 +280,33 @@ class TestEmergencyTriageProperties:
 
 class TestHealthGraphProperties:
 
+    @pytest.fixture(autouse=True)
+    def _isolate_graph(self, tmp_path, monkeypatch):
+        """Redirect the graph's persistence to a throwaway file.
+
+        Without this, every Hypothesis example reads/writes the real
+        ./data/health_graph.json — leaking state across examples (which makes
+        these tests flaky / non-reproducible) and corrupting seeded data.
+        """
+        monkeypatch.setattr(health_graph_module, "DATA_PATH", tmp_path / "health_graph.json")
+
+    @staticmethod
+    def _fresh_graph() -> HealthGraph:
+        """A clean, empty graph for a single example."""
+        if health_graph_module.DATA_PATH.exists():
+            health_graph_module.DATA_PATH.unlink()
+        return HealthGraph()
+
     @given(
         records=st.lists(_vital(), min_size=1, max_size=20),
     )
-    @h_settings(suppress_health_check=[HealthCheck.too_slow], max_examples=50)
+    @h_settings(
+        suppress_health_check=[HealthCheck.too_slow, HealthCheck.function_scoped_fixture],
+        max_examples=50,
+    )
     def test_node_count_monotone(self, records: list[VitalRecord]):
         """Adding records must never decrease the node count."""
-        graph = HealthGraph()
+        graph = self._fresh_graph()
         prev_count = graph.get_node_count()
         for rec in records:
             rec.trust_score = 0.8
@@ -297,10 +318,13 @@ class TestHealthGraphProperties:
     @given(
         records=st.lists(_vital(), min_size=2, max_size=15),
     )
-    @h_settings(suppress_health_check=[HealthCheck.too_slow], max_examples=30)
+    @h_settings(
+        suppress_health_check=[HealthCheck.too_slow, HealthCheck.function_scoped_fixture],
+        max_examples=30,
+    )
     def test_edge_count_non_negative(self, records: list[VitalRecord]):
         """Edge count must always be ≥ 0."""
-        graph = HealthGraph()
+        graph = self._fresh_graph()
         for rec in records:
             rec.trust_score = 0.7
             graph.add_node(rec)

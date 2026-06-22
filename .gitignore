@@ -10,6 +10,8 @@ ENV/
 *.jsonl
 data/*.json
 data/*.csv
+# local user store — contains password hashes, never commit
+data/auth/
 .DS_Store
 node_modules/
 dist/

@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 
 from backend.config import settings
-from backend.api.v1.routes import ingest, consent, reports, conversation, audit, feedback, bias
+from backend.api.v1.routes import ingest, consent, reports, conversation, audit, feedback, bias, auth
 from backend.services.audit_logger import audit_logger, AuditEventType
 
 app = FastAPI(
@@ -27,17 +27,22 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-# Allow all origins in dev, restrict in production via CORS_ORIGINS env var
+# Allow all origins in dev, restrict in production via CORS_ORIGINS env var.
+# Auth uses `Authorization: Bearer <jwt>` (not cookies), so we don't need
+# credentialed CORS — and "*" + allow_credentials=True is an invalid combo that
+# browsers reject, so we only enable credentials for an explicit origin allowlist.
 cors_origins = settings.CORS_ORIGINS
 if cors_origins == "*":
     origins_list = ["*"]
+    allow_credentials = False
 else:
-    origins_list = [o.strip() for o in cors_origins.split(",")]
+    origins_list = [o.strip() for o in cors_origins.split(",") if o.strip()]
+    allow_credentials = True
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins_list,
-    allow_credentials=True,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -50,6 +55,7 @@ app.include_router(conversation.router, prefix=settings.API_V1_STR)
 app.include_router(audit.router, prefix=settings.API_V1_STR)
 app.include_router(feedback.router, prefix=settings.API_V1_STR)
 app.include_router(bias.router, prefix=settings.API_V1_STR)
+app.include_router(auth.router, prefix=settings.API_V1_STR)
 
 # ── Static Frontend (only if frontend dir exists — not used in Render deploy) ─
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"

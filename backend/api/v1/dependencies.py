@@ -58,16 +58,12 @@ def _extract_user_jwt(
 ) -> str:
     """
     JWT-mode auth.
-    Reads Authorization: Bearer <token>, decodes with SECUREMED_JWT_SECRET (HS256),
-    and returns the 'sub' claim as the user_id.
+    Reads Authorization: Bearer <token>, verifies it with the same stdlib HS256
+    implementation used to issue tokens (auth_service), and returns the 'sub'
+    claim as the user_id. No third-party JWT library required.
     """
-    try:
-        from jose import JWTError, jwt  # type: ignore
-    except ImportError as exc:
-        raise RuntimeError(
-            "JWT auth requires 'python-jose[cryptography]'. "
-            "Run: pip install 'python-jose[cryptography]'"
-        ) from exc
+    # Imported lazily to avoid a circular import at module load time.
+    from backend.services.auth_service import decode_access_token, TokenError
 
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(
@@ -77,17 +73,9 @@ def _extract_user_jwt(
         )
 
     token = authorization.removeprefix("Bearer ").strip()
-    secret = getattr(settings, "SECUREMED_JWT_SECRET", "")
-
-    if not secret:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="SECUREMED_JWT_SECRET is not configured on the server.",
-        )
-
     try:
-        payload = jwt.decode(token, secret, algorithms=["HS256"])
-    except JWTError as exc:
+        payload = decode_access_token(token)
+    except TokenError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Invalid or expired token: {exc}",
