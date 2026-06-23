@@ -30,4 +30,5 @@ class RiskFinding:
     causal_pathway: Optional[List[str]] = None
     counterfactual: Optional[CounterfactualResult] = None
     shap_values: Optional[Dict[str, float]] = None
+    tgnn_prediction: Optional[Dict] = None
     timestamp: datetime = field(default_factory=datetime.utcnow)

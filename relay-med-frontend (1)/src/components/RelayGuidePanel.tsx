@@ -1,7 +1,6 @@
 import { Bot, Send, MoreVertical, Loader2, ShieldAlert, UserCheck, UserX } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { API_BASE } from "@/lib/api";
 
 const suggestions = [
   "What factors are increasing my cardiovascular risk?",
@@ -60,20 +59,43 @@ export function RelayGuidePanel() {
     setInput(""); setLoading(true);
     const hCtx = buildHealthContext();
     const enriched = hCtx ? text.trim() + hCtx : text.trim();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     try {
       const res = await fetch(`${API_BASE}/api/v1/conversation/chat`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId, message: enriched, include_health_context: true, stream: false }),
+        signal: controller.signal,
       });
-      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        let detail = `Server error (${res.status})`;
+        try { const errData = await res.json(); detail = errData.detail || errData.message || detail; } catch {}
+        throw new Error(detail);
+      }
+
       const data = await res.json();
       if (data.session_id && !sessionId) setSessionId(data.session_id);
       let resp = data.response || "I'm having trouble right now. Please try again.";
       if (hCtx && !resp.includes("Based on your health data")) resp = "*(Personalized based on your health data)*\n\n" + resp;
       setMessages(p => [...p, { role: "assistant", content: resp, hasDisclaimer: resp.includes("consult your doctor") }]);
-    } catch {
-      setMessages(p => [...p, { role: "assistant", content: "I'm currently in demo mode (backend connecting...). In production, I analyze your health data and provide personalized insights, including medicine suggestions with appropriate disclaimers.\n\nThis is AI-generated guidance. AI can make mistakes. Please consult a qualified healthcare provider before making any medical decisions." }]);
-    } finally { setLoading(false); }
+
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      const isAbort = err?.name === "AbortError";
+      const msg = isAbort
+        ? "⏱ Request timed out. The backend may be busy — please try again."
+        : err?.message?.includes("fetch")
+          ? `❌ Cannot reach backend at ${API_BASE}. Make sure the backend is running:\n\nuvicorn backend.main:app --port 8000`
+          : `❌ Error: ${err?.message || "Unknown error"}`;
+      setMessages(p => [...p, { role: "assistant", content: msg }]);
+    } finally {
+      setLoading(false);
+    }
   }, [loading, sessionId]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } };

@@ -36,17 +36,17 @@ export function InsightGrid() {
       {/* Health Outlook */}
       <div className="soft-card p-5">
         <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-semibold flex items-center gap-2">Health Outlook <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
+          <h3 className="font-display text-lg font-semibold flex items-center gap-2 whitespace-nowrap">Health Outlook <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
         </div>
         <div className="mt-4 space-y-3">
           {horizons.map((h) => (
             <div key={h.label} className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-mint/70 grid place-items-center text-sage"><CalendarDays className="w-4 h-4" /></div>
-              <div className="flex-1">
+              <div className="w-10 h-10 rounded-xl bg-mint/70 grid place-items-center text-sage shrink-0"><CalendarDays className="w-4 h-4" /></div>
+              <div className="flex-1 min-w-0">
                 <div className="text-xs text-muted-foreground">{h.label}</div>
                 <div className="text-sm font-medium">{h.status}</div>
               </div>
-              <span className={`text-[10px] font-medium px-2 py-1 rounded-full ${h.tone === "warn" ? "bg-[color:color-mix(in_oklab,var(--warning)_22%,white)] text-[color:color-mix(in_oklab,var(--warning)_60%,black)]" : "bg-mint text-sage"}`}>{h.tag}</span>
+              <span className={`text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap shrink-0 ${h.tone === "warn" ? "bg-[color:color-mix(in_oklab,var(--warning)_22%,white)] text-[color:color-mix(in_oklab,var(--warning)_60%,black)]" : "bg-mint text-sage"}`}>{h.tag}</span>
             </div>
           ))}
         </div>
@@ -55,7 +55,7 @@ export function InsightGrid() {
 
       {/* What-If Simulator */}
       <div className="soft-card p-5">
-        <h3 className="font-display text-lg font-semibold flex items-center gap-2">What-If Simulator <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
+        <h3 className="font-display text-lg font-semibold flex items-center gap-2 whitespace-nowrap">What-If Simulator <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
         <p className="text-[11px] text-muted-foreground mt-1">See how small changes can improve your future health.</p>
         <div className="text-[11px] text-muted-foreground mt-3">I want to improve <button className="ml-2 neu-btn px-2 py-1 rounded-lg inline-flex items-center gap-1 text-foreground">Heart Health <ChevronDown className="w-3 h-3" /></button></div>
 
@@ -82,7 +82,7 @@ export function InsightGrid() {
 
       {/* Today's Insights */}
       <div className="soft-card p-5">
-        <h3 className="font-display text-lg font-semibold flex items-center gap-2">Today's Insights <Sparkles className="w-3.5 h-3.5 text-sage" /></h3>
+        <h3 className="font-display text-lg font-semibold flex items-center gap-2 whitespace-nowrap">Today's Insights <Sparkles className="w-3.5 h-3.5 text-sage" /></h3>
         <div className="mt-4 space-y-3">
           {insights.map((it, i) => {
             const Icon = it.icon;
@@ -101,16 +101,16 @@ export function InsightGrid() {
 
       {/* Data Reliability */}
       <div className="soft-card p-5">
-        <h3 className="font-display text-lg font-semibold flex items-center gap-2">Data Reliability <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
+        <h3 className="font-display text-lg font-semibold flex items-center gap-2 whitespace-nowrap">Data Reliability <Info className="w-3.5 h-3.5 text-muted-foreground" /></h3>
         <div className="mt-4 space-y-3.5">
           {trust.map((t) => {
             const Icon = t.icon;
             return (
               <div key={t.label} className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-mint/70 grid place-items-center text-sage"><Icon className="w-4 h-4" /></div>
+                <div className="w-9 h-9 rounded-xl bg-mint/70 grid place-items-center text-sage shrink-0"><Icon className="w-4 h-4" /></div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="text-xs font-medium truncate">{t.label}</div>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="text-xs font-medium leading-tight">{t.label}</div>
                     <div className="text-[10px] text-muted-foreground">{t.note}</div>
                   </div>
                   <div className="mt-1 h-1.5 rounded-full bg-mint/60 overflow-hidden">

@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7
     # Google OAuth Web Client ID — enables "Continue with Google".
     # Create one at https://console.cloud.google.com/apis/credentials
-    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_ID: str = "311664875682-qckafchjiual8k169u8tmnicm13t8s6d.apps.googleusercontent.com"
     
     # Data Trust — weights must sum to 1.0.
     # Recency carries 0.4 so that data older than STALENESS_THRESHOLD_DAYS is

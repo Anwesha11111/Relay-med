@@ -13,6 +13,9 @@ import yaml
 from backend.models.risk_finding import RiskFinding, VitalRef
 from backend.services.health_graph import health_graph
 from backend.services.audit_logger import audit_logger, AuditEventType
+from backend.services.shap_explainer import SHAPExplainer
+from backend.services.causal_engine import CausalExplainer
+from backend.services.tgnn_engine import tgnn_engine
 import uuid
 
 
@@ -79,7 +82,10 @@ class RuleEngine:
             recommendations=[rule.get("recommendation", "")],
             timestamp=datetime.utcnow(),
         )
-
+        # Enrich finding with SHAP, causal pathway, and TGNN prediction
+        finding.shap_values = SHAPExplainer.compute_shap(finding)
+        finding.causal_pathway = CausalExplainer.generate_pathway(finding)
+        finding.tgnn_prediction = tgnn_engine.predict().to_dict()
         audit_logger.log(
             AuditEventType.YELLOW_FLAG_ALERT if finding.severity == "yellow_flag" else AuditEventType.REPORT_GENERATED,
             {"rule_id": rule["id"], "severity": finding.severity},
