@@ -13,3 +13,8 @@ services:
         value: "gemini"
       - key: CORS_ORIGINS
         value: "*"
+      # Auth: set a strong random JWT secret and (optionally) a Google client ID.
+      - key: SECUREMED_JWT_SECRET
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false

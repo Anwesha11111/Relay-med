@@ -22,4 +22,4 @@ biopython>=1.83
 # Dev / testing
 pytest>=8.2.0
 pytest-asyncio>=0.23.6
-hypothesis>=6.100.0
+hypothesis>=6.100.0,<6.135.0  # 6.135+ shipped a datatree regression (TreeNode.is_exhausted)

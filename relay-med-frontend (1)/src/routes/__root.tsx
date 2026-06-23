@@ -116,9 +116,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* Auth gate — shows login page if not logged in */
+/* Auth gate — shows a loader while the session is restored, then login or app.
+   The loader also keeps SSR and the first client paint identical (no flash). */
 function AuthGate() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-muted border-t-foreground" />
+      </div>
+    );
+  }
   if (!isLoggedIn) return <LoginPage />;
   return <Outlet />;
 }
